@@ -1,0 +1,15 @@
+- layout file: The base of the theme. Use the layout file to host repeated theme elements like headers and footers. có nghĩa dang cơ sở của chủ đề, dùng để kưu trữ các phần tử chủ đề lập lại như header hoặc footer
+
+- template: The template that controls what's displayed on a page. Each theme should include different types of templates to display different types of content, such as the home page and products. You can also create multiple templates for the same resource type and associate them with your store resources, to allow for variation.
+
+JSON templates act only as a wrapper for sections, while Liquid templates contain code. (dịch ra là: nới kiểm soát hững gì được hiển thị trên 1 trang, mỗi chủ đề nên bao gồm nhiều template khác nhau. các temlate json chỉ hoạt động như một trình baop bọc cho các phần, trong khi các mẫu liquid chữa mã )
+
+- section là các mô đun nội dung có thể tái sử dụng , có thể tùy chỉnh mà nười bán có thể thêm vào mẫu json)
+
+- block: các mo đun nọi dung có thể tái ché sử dụng có thể tùy chỉnh có thể được thêm vào các phần, đồng thời có thể bị xóa hoặc sắp xếp lại
+
+- assets là nơi lưu trữ nhwunxg file css và js 
+- snippets là nơi lưu trữ liquid vs HTML mà bạn muốn sử dụng lại trong thêm của mình 
+- locales: là nơi chứa những ngôn ngữ  khác nhau
+
+- assets 
