@@ -15,7 +15,7 @@
             "button_style_secondary": false,
             "box_align": "middle-center",
             "show_text_box": false,
-            "text_alignment": "center",
+            "text_alignment": "left",
             "image_overlay_opacity": 0,
             "color_scheme": "background-1",
             "text_alignment_mobile": "center"
@@ -88,8 +88,8 @@
         "slider_visual": "counter",
         "auto_rotate": true,
         "change_slides_speed": 5,
-        "show_text_below": true,
-        "accessibility_info": "Slideshow about our brand"
+        "show_text_below": false,
+        "accessibility_info": ""
       }
     },
     "rich_text": {
