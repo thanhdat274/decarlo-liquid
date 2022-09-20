@@ -15,7 +15,7 @@
     "heading_scale": 100,
     "type_body_font": "assistant_n4",
     "body_scale": 100,
-    "page_width": 1100,
+    "page_width": 1600,
     "spacing_sections": 0,
     "spacing_grid_horizontal": 8,
     "spacing_grid_vertical": 8,
@@ -104,7 +104,7 @@
     "badge_corner_radius": 40,
     "sale_badge_color_scheme": "accent-2",
     "sold_out_badge_color_scheme": "inverse",
-    "accent_icons": "text",
+    "accent_icons": "accent-1",
     "social_twitter_link": "",
     "social_facebook_link": "",
     "social_pinterest_link": "",
@@ -128,7 +128,7 @@
             "settings": {
               "text": "FREE SHIPPING IN ITALY",
               "text_alignment": "center",
-              "color_scheme": "inverse",
+              "color_scheme": "accent-1",
               "link": ""
             }
           }
