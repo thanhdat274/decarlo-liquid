@@ -144,7 +144,7 @@
         "settings": {
           "color_scheme": "background-1",
           "logo": "shopify:\/\/shop_images\/logo.png",
-          "logo_width": 139,
+          "logo_width": 90,
           "logo_position": "middle-left",
           "menu": "main-menu",
           "menu_type_desktop": "dropdown",
@@ -163,7 +163,7 @@
             "type": "image",
             "settings": {
               "image": "shopify:\/\/shop_images\/logo-footer.png",
-              "image_width": 158,
+              "image_width": 155,
               "alignment": "center"
             }
           }
