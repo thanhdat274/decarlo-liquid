@@ -2249,9 +2249,8 @@ input[type='checkbox'] {
 }
 
 .header {
-  display: grid;
-  grid-template-areas: 'left-icon heading icons';
-  grid-template-columns: 1fr 2fr 1fr;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
