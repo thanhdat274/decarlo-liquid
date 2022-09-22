@@ -36,3 +36,7 @@ JSON templates act only as a wrapper for sections, while Liquid templates contai
 
 + JSON vs Liquid: Nếu bạn muốn sử dụng các phần trong một mẫu, thì bạn nên sử dụng mẫu JSON 
 + Template type: Các loại mẫu có sẵn đại diện cho một loại nội dung trong cửa hàng trực tuyến của thương nhân. Tuy nhiên, bạn phải có một mẫu phù hơp cho bất kỳ loại trang nào bạn muốn hiển thị. VD: để hiển thị trang sản phẩm bạn càn ít nhất 1 loại .product. Bjan có tối đã 100 mẫu json tỏng chủ để của mình. trên tất cả các loại mãu. Bạn có thẻ sử dụng các loại mẫu sau trong chủ đề của mình.  
+
+* json template:
+- schema: 
++ Attribute section có type là object và mỗi đối tượng sử dụng id làm khóa và dữ liệu phần làm giá trị. thuộc tính này cần chứa ít nhát một phần. id ko được trùng lập. định dạng của dữ liệu phần giống như dữ liệu phần trong setting_data.json. các json template có thể hiển thi tối đa 25 section và mỗi section có thể có tối đã 50 block
