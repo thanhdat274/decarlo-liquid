@@ -13,3 +13,26 @@ JSON templates act only as a wrapper for sections, while Liquid templates contai
 - locales: là nơi chứa những ngôn ngữ  khác nhau
 
 - assets 
+
+- Tempalte là nơi kiểm soát nội dung hiển thị trên mỗi trang trong 1 chủ đề.
+
++ Mỗi trang trong cửa hàng trực tuyến có một mẫu liên quan. Bạn có thể sử dụng mẫu để thêm chức năng có ý nghĩa cho trang. VD: bạn có thể thêm đề xuát sản phầm bổ sung vào mẫu sản phảm haowjc thêm comment vào bài viết
++ Bạn có thể tạo nhiều phiên bản của template để tạo các mẫu tùy chỉnh cho các trường hợp sử dụng khác nhau. VD: Có thể tạo mẫu sản phẩm riêng cho các sản phẩm áo khoác hoặc mẫu trang rieng co các trang có nô
+
++ Location (Vị trí cấu trúc file trong template)
+└── theme
+    ├── layout
+    ├── templates
+    |   ├── 404.json
+    |   ├── article.json
+    |   ...
+    ...
+
++ Subtypes (loại hình phụ): Có thể sử dụng hai loại tệp mãu khác nhau trong chủ đề. các loại tệp này có thể tạo ra nhiều loại mẫu (template) mỗi loại đại diện cho một nội dung trong cửa hàng trực tuyến của người bán 
+
++ File types (Các loại tệp):  Có 2 loại tệp khác nhau có thể sử dụng cho một mẫu chủ đề: JSON or Liquid. có một số template chỉ hỗ trọ cho liqui, trong  khi các loại mẫu khác hỗ trợ loại tập mẫu.
+	+ JSON: mẫu json là các tệp dữ liệu có phần mở rộng tệp. Các mẫu này cho phép chúng ta dễ dàng điền vào mẫu của mình với nội dung từ các phần. Người bán có thể thêm sử xóa hoặc sắp xếp lại các mục bằng trình chỉnh sửa chủ đề. Nếu bạn đang sử dụng mãu JSON mọi HTML haowjc Liquid đều cần được được dưa vào phần được mẫu tham chiếu
+	+ Liquid: mẫu liquid là tệp đánh dầu liquid, có phần mở rộng, bạn có thể thêm liquid và HTML trực tiếp vào template liquid có đuôi .Liquid
+
++ JSON vs Liquid: Nếu bạn muốn sử dụng các phần trong một mẫu, thì bạn nên sử dụng mẫu JSON 
++ Template type: Các loại mẫu có sẵn đại diện cho một loại nội dung trong cửa hàng trực tuyến của thương nhân. Tuy nhiên, bạn phải có một mẫu phù hơp cho bất kỳ loại trang nào bạn muốn hiển thị. VD: để hiển thị trang sản phẩm bạn càn ít nhất 1 loại .product. Bjan có tối đã 100 mẫu json tỏng chủ để của mình. trên tất cả các loại mãu. Bạn có thẻ sử dụng các loại mẫu sau trong chủ đề của mình.  
