@@ -39,4 +39,231 @@ JSON templates act only as a wrapper for sections, while Liquid templates contai
 
 * json template:
 - schema: 
-+ Attribute section có type là object và mỗi đối tượng sử dụng id làm khóa và dữ liệu phần làm giá trị. thuộc tính này cần chứa ít nhát một phần. id ko được trùng lập. định dạng của dữ liệu phần giống như dữ liệu phần trong setting_data.json. các json template có thể hiển thi tối đa 25 section và mỗi section có thể có tối đã 50 block
++ Attribute name có type là string. Nó là tên cho mẫu.
++ Attribute layout có type là string or false. Nó là Tên tệp của bố cục để sử dụng khi hiển thị mẫu. VD: chỉ dịnh "full width" để hiển thị layut/ full-width.liquid. Bố cục mặc định là theme.liquid. Sử dụng giá trị false để hiển thị mẫu mà không có bố cục. Khổng thể tùy chỉnh các mẫu không có bố cục trong trình chỉnh sửa chủ đề.
++ Attribute wrapper có type là string. nó là phan ftuwr bao bọc html cho các phần của section của template.
++ Attribute section có type là object và mỗi đối tượng sử dụng id làm khóa và dữ liệu phần làm giá trị. thuộc tính này cần chứa ít nhát một phần. id ko được trùng lập. định dạng của dữ liệu phần giống như dữ liệu phần trong setting_data.json. các json template có thể hiển thi tối đa 25 section và mỗi section có thể có tối đã 50 block.
++ Attribute order có type là mảng (array). nó có nghĩa là một mảng ID phàn. được liệt kê theo thứ tự chúng sẽ được hiển thị. Các ID phải tồn tại trong đối tượng section. không được phép trùng lập
+
+* Naming json template (đặt tên cho các json template)
+
+- Tên tệp phải là loại mẫu chủ đề hợp lệ, với hậu tố tùy chọn cho mẫu thay thế. Ví dụ: một mẫu sản phẩm có thể được đặt tên hoặc .product.jsonproduct.alternate.json
+
+- Một mẫu chỉ có thể tồn tại dưới dạng mẫu JSON hoặc Liquid, không phải cả hai. Ví dụ: nếu đã tồn tại, thì bạn không thể tạo tệp .product.liquidproduct.json
+
+* The wrapper property (Thuộc tính wrapper)
+
+- The property makes it possible to insert HTML tags around all of the sections in a JSON template. You can use the following HTML tags:wrapper (dịch là Thuộc tính này giuspbajn có thể chèn thẻ html xung quanh tất cả các phần trong mẫu json. Bạn có thể sử dụng các thẻ HTML sau wrapper)
++ <div>
++ <main>
++ <section>
+
+* section data (Phần dữ liệu )
+- The attribute of JSON templates holds the data for the sections to be rendered by the template. These can be either theme sections or app sections. You can't share section data across JSON theme templates, so each section must have an ID that's unique within the template.sections 
+-> (dich ra  có nghĩa là Thuộc tính của mãu json chứa dữ liệu cho các phần được hiển thị bởi mẫu. Đây có thể là phần chủ đề hoặc phần ứng dụng. bjan không thể chia sẻ dữ liệu phần trên các mẫu chủ đề json, vì vậy mỗi phàn phải có một ID duy nhất trong template.sections).
+
+- JSON templates can render up to 25 sections, and each section can have up to 50 blocks. -> (các mẫu json có thể hiển thị tối đa 25 phần và mỗi phần có thể có tối đã 50 khối)
+
+- You can add sections to a template in code, or through the theme editor. The sections that are available to be added to a template in the theme editor might be limited by the templates attribute of the section schema. If no attribute is defined, then the section can be added to any template.templates -> (dịch ra Bạn có thể thêm các phần vào mẫu trong mã hoặc thông qua trình chỉnh sửa chủ đề. Các phần có sẵn để thêm vào mẫu trong trình chỉnh sửa chủ đề có thể bị giới hạn bởi thuộc tính mẫu của lược đồ mục. Nếu không có thuộc tính nào được xác định, thì phần này có thể được thêm vào bất kỳ template.templates nào )
+
+- The following table outlines the format of section data: (có nghĩa là bản sau là bảng liệt kê các dịnh dạng của phàn dữ liệu)
+
++ <SectionID> có type String nó định nghĩa là một ID duy nhát cho section. Chỉ chấp nhận các ký tự chữ và số
+
++ <SectionType> có type là String ý nghĩa là tên tệp của phàn tệp cần heienr thị và không có phần mở rộng 
+
++ <SectionDisabled> có type là	Boolean có nội dung là khi phần ko thể hiển thị nhwung vãn có thể tùy chỉnh tỏng trình chỉnh sửa của chủ đề. Là thoe mặc định true fales
+
++ <BlockID>	có type là string có nội dung là Một ID duy nhất cho khối. Chỉ chấp nhận các ký tự chữ và số.
+
++ <BlockType> có type là string có nội dung là Có Loại khối để hiển thị, như được xác định trong lược đồ của tệp phần.
+
++ <BlockOrder> có type là array có nội dung là Một mảng ID khối, được sắp xếp theo thứ tự như chúng sẽ được hiển thị. Các ID phải tồn tại trong đối tượng và không được phép sao chép.blocks
+
++ <SettingID> có type là string	có nội là ID của một tùy chọn cài đặt như được xác định trong lược đồ của phần hoặc khối.
++ <SettingValue> có type là multiple và có nội dung là Một giá trị hợp lệ cho cài đặt.
+
+* article 
+- Có nội dung là mẫu bài viết hiển thị trang bài viết, trong đó chứa đẩy dủ nội dung của bài viết, cũng như phần nhận xét tùy chọn cho khách hàng. Nẫu này được sử dụng cho các mục như bài viết cá nhân trong một blog
+
+- location
+The template is located in the directory of the theme:articletemplates (Mẫu nằm trong thư mục của chủ đề:articletemplates)
+└── theme
+    	├── layout
+    	├── templates
+    	|   ├── 404.json
+    	|   ├── article.json
+    	|   ...
+    	...
+
+- Content 
++ Bạn nên bao gồm những điều sau đây trong mẫu của bạn hoặc một phần bên trong mẫu:article:
+		+ The article objectInput	type	name
+Name	text	comment[author]
+Email	email	comment[email]
+Comment	textarea	comment[body]
+		+ The comment form
+
+- The article objectAnchor
++ Bạn có thể truy cập vào đối tượng Liquid article để hiển thị chi tiết bài viết.
+
+- The comment form:
++ Bạn có thể thêm biểu mẫu nhận xét bằng thẻ Biểu mẫu lỏng và thông số đi kèm. Trong khối thẻ biểu mẫu, bạn cần bao gồm những thông tin sau:'new_comment', article
+
+Input	 			type						name
+Name	 			text						comment[author]
+Email	 			email						comment[email]
+Comment			textarea				comment[body]
+
+- Paginate article comments:
++ Nhận xét bài viết có thể được truy cập thông qua đối tượng bài viết và có giới hạn 50 mỗi trang. Vì lý do này, bạn nên phân trang các nhận xét của bài viết để đảm bảo rằng tất cả chúng đều có thể truy cập được:
+
+VD: 
+{% paginate article.comments by 20 %}
+  {% for comment in article.comments %}
+    <!-- comment info -->
+  {% endfor %}
+
+  {{ paginate | default_pagination }}
+{% endpaginate %}
+
+* Blog 
+- Mãu blog hiển thị trang blog, trong đó liệt kê tất cả ccasc bài viết trong một trang
+
+- location
++ Mẫu nằm trong thư mục của chủ đề:blogtemplates
+
+└── theme
+    ├── layout
+    ├── templates
+    |   ...
+    |   ├── blog.json
+    |   ...
+    ...
+
+- content
++ Bạn nên bao gồm đối tượng blog trong mẫu của mình hoặc một phần bên trong mẫu.blog
+
+- the blog object 
++ Bạn có thể truy cập đối tượng Blog Liquid để hiển thị chi tiết blog.
+
+- Filter articles by tag
++ Bạn có thể sử dụng thẻ bài viết để lọc blog thành các tập hợp con nhỏ hơn của bài viết. Điều này được thực hiện bằng cách thêm vào URL blog, trong đó là phiên bản được xử lý của thẻ bài viết mong muốn.\/tagged\/[tag-handle][tag-handle]
+
++ Ví dụ: nếu bạn muốn chỉ hiển thị các bài viết từ blog được gắn thẻ, thì bạn có thể sử dụng cấu trúc URL sau: Main News
+
+https://my-store.myshopify.com/blogs/main/tagged/news
+
++ Bạn cũng có thể lọc bằng nhiều thẻ bằng cách kết hợp các thẻ được xử lý với A:+
+https://my-store.myshopify.com/blogs/main/tagged/news+breaking
+
+* cart 
+- mẫu giỏ hàng hiển thị trang giỏ hàng, cung cấp một cách nhìn tổng quan về nội dung của ior hàng của khách hàng. Tổng quan thường được hiển thị ở định dạng bảng với một hàng cho mỗi mục hàng.
+
+- location 
++ Cart template nằm trong thư mục templates của theme: 
+└── theme
+    ├── layout
+    ├── templates
+    |   ...
+    |   ├── cart.json
+    |   ...
+    ...
+
+- content: Bạn nên bao gồm đối tượng giỏ hàng trong mẫu giỏ hàng của bạn hoặc một phần bên trong mẫu.
+
+- The cart object
++ bạn có thể truy cập vào giỏ hàng.liquid để hiển thị chi tiết giỏ hàng 
+
+- Usage
++ Khi làm việc với template, bạn nên làm quen với những điều sau: giỏ hàng
+
+- Cart line items
++ Line_item là một dong duy nhất trong giỏ hàng ghi lại biến thể của sản phẩm đã được thêm vào số lượng liên quan. VD  nếu khách hàng thêm cả hai và cùng một chiếc áo, thì mỗi chiếc áo phông có mục hàng riêng size medium size large t-shirt
++ VD:
+{% for item in cart.items %}
+  <!-- line item info -->
+{% endfor %}
+
+
+- Proceed to checkout (Tiến hành thanh toán)
++ Để cho phép khách hàng tiến hành thanh toán từ giỏ hàng, bạn cần xuất các mục hàng giỏ hàng bên trong một phần tử. Phần tử form cần phải có các thuộc tính của và .<form>action="{{ routes.cart_url }}"method="post"
+
++ Phần tử biểu mẫu cũng cần bao gồm một với các thuộc tính của và . Đầu vào này kích hoạt tiến hành thanh toán.<input>type="submit"name="checkout"
+
++ VD:
+<form action="{{ routes.cart_url }}" method="post">
+  {% for item in cart.items %}
+    <!-- line item info -->
+  {% endfor %}
+
+  <input type="submit" name="checkout" value="Checkout">
+</form>
+
+- Remove line items from the cart
++ Bạn nên cung cấp cho khách hàng tùy chọn xóa mục hàng khỏi giỏ hàng của họ. Bạn có thể làm điều này bằng cách bao gồm một phần tử với mỗi mục hàng, có thuộc tính tham chiếu đến thuộc tính của đối tượng line_item:<a>hrefurl_to_remove
+
++ Ví dụ:
+{% for item in cart.items %}
+  	<!-- line item info -->
+  	<a href="{{ item.url_to_remove }}">Remove</a>
+{% endfor %}
+
+- Update line item quantities
++ Bạn nên cung cấp cho khách hàng tùy chọn cập nhật số lượng mục hàng trong giỏ hàng của họ. Bạn có thể làm điều này bằng cách bao gồm một phần tử với mỗi mục hàng có các thuộc tính của và:<input>name="updates[]"value=""
++ VD:
+{% for item in cart.items %}
+  <!-- line item info -->
+
+  <input type="text" name="updates[]" value="{{ item.quantity }}">
+{% endfor %}
+
++ Để thực sự kích hoạt cập nhật khi đầu vào số lượng được thay đổi, bạn có thể bao gồm một thuộc tính có trong giỏ hàng:<input>type="submit"<form>
++ VD: <input type="submit" value="Update cart">
+
+- Show cart and line item discounts (Hiển thị giảm giá cho gải hàng và mục hàng)
++ VÌ chiết khẩu có thể áp dụng cho toàn bộ giỏ hàng hoặc cho các mục hàng rieng lẻ, bạn nên hiển thị chiết khấu với tổng số giỏ hàng và hiển thị từng mục hàng với giỏ hàng riêng lẻ.
+
+- Support cart notes and attributes (Hỗ trợ gi chú và thuộc tính giỏ hàng)
++ Bạn có thể cung cấp cho khách hàng tùy chọn bao gồm thông tin bổ sung với đơn đặt hàng của họ thông qua ghi chú và thuộc tính giỏ hàng.
+
+- cart notes
++ Dùng để ghi chứ giỏ hàng, bao gồm đầu vào HTML, thường là a, với một thuộc tính của bên trong giỏ hàng: <textarea> name = "note" <form>
+
++ VD: <textarea name="note"></textarea>
++ Bạn có thể truy cập giá trị này thông qua thuộc tính của cart object.note
+
+- Cart attributes
++ Để thu được thuộc tính giỏ hàng, bao gồm đầu vào HTML với thuộc tính của bên trong giỏ hàng: name = "thuộc tính [tên thuộc tính]" <Form>
+
++ VD: 
+<p>
+  <label>Please let us know your favorite color</label>
+
+  <input type="text" name="attributes[Favorite color]" value="{{ cart.attributes['Favorite color'] }}">
+</p>
++ Mọi giá trị đều có thể truy cập được thông qua thuộc tính của đối tượng giỏ hàng.attributes
+
+- Display line item propertiesAnchor ()
++ Khi các mặt hàng được thêm vào giỏ hàng, chúng có thể có các thuộc tính mục hàng đi kèm với chúng. Bạn có thể hiển thị các thuộc tính này trên trang giỏ hàng bằng cách lặp qua từng thuộc tính:
+
++ Ví dụ: 
+{% for item in cart.items %}
+  <!-- line item info -->
+
+  {% unless item.properties == empty %}
+    {% for property in item.properties %}
+      {{ property.first }}:
+
+      {% if property.last contains '/uploads/' %}
+        <a href="{{ property.last }}">{{ property.last | split: '/' | last }}</a>
+      {% else %}
+        {{ property.last }}
+      {% endif %}
+    {% endfor %}
+  {% endunless %}
+{% endfor %}
+
+* collection ()
+
+- Mẫu bộ sưu tập hiển thị trang bộ sưu tập, liệt kê tất cả các sản phẩm trong một bộ sưu tập.
