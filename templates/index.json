@@ -76,12 +76,12 @@
     "1664250740ae689ad0": {
       "type": "featured-collection",
       "settings": {
-        "title": "Điện thoại iPhone",
+        "title": "Điện thoại nổi bật",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
         "description_style": "subtitle",
-        "collection": "frontpage",
+        "collection": "dien-thoai",
         "products_to_show": 10,
         "columns_desktop": 5,
         "full_width": false,
