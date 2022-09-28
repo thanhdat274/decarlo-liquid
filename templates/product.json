@@ -110,7 +110,7 @@
     "product-recommendations": {
       "type": "product-recommendations",
       "settings": {
-        "heading": "You may also like",
+        "heading": "",
         "heading_size": "h1",
         "products_to_show": 5,
         "columns_desktop": 5,
