@@ -1,269 +1,2038 @@
-- layout file: The base of the theme. Use the layout file to host repeated theme elements like headers and footers. có nghĩa dang cơ sở của chủ đề, dùng để kưu trữ các phần tử chủ đề lập lại như header hoặc footer
-
-- template: The template that controls what's displayed on a page. Each theme should include different types of templates to display different types of content, such as the home page and products. You can also create multiple templates for the same resource type and associate them with your store resources, to allow for variation.
-
-JSON templates act only as a wrapper for sections, while Liquid templates contain code. (dịch ra là: nới kiểm soát hững gì được hiển thị trên 1 trang, mỗi chủ đề nên bao gồm nhiều template khác nhau. các temlate json chỉ hoạt động như một trình baop bọc cho các phần, trong khi các mẫu liquid chữa mã )
-
-- section là các mô đun nội dung có thể tái sử dụng , có thể tùy chỉnh mà nười bán có thể thêm vào mẫu json)
-
-- block: các mo đun nọi dung có thể tái ché sử dụng có thể tùy chỉnh có thể được thêm vào các phần, đồng thời có thể bị xóa hoặc sắp xếp lại
-
-- assets là nơi lưu trữ nhwunxg file css và js 
-- snippets là nơi lưu trữ liquid vs HTML mà bạn muốn sử dụng lại trong thêm của mình 
-- locales: là nơi chứa những ngôn ngữ  khác nhau
-
-- assets 
-
-- Tempalte là nơi kiểm soát nội dung hiển thị trên mỗi trang trong 1 chủ đề.
-
-+ Mỗi trang trong cửa hàng trực tuyến có một mẫu liên quan. Bạn có thể sử dụng mẫu để thêm chức năng có ý nghĩa cho trang. VD: bạn có thể thêm đề xuát sản phầm bổ sung vào mẫu sản phảm haowjc thêm comment vào bài viết
-+ Bạn có thể tạo nhiều phiên bản của template để tạo các mẫu tùy chỉnh cho các trường hợp sử dụng khác nhau. VD: Có thể tạo mẫu sản phẩm riêng cho các sản phẩm áo khoác hoặc mẫu trang rieng co các trang có nô
-
-+ Location (Vị trí cấu trúc file trong template)
-└── theme
-    ├── layout
-    ├── templates
-    |   ├── 404.json
-    |   ├── article.json
-    |   ...
-    ...
-
-+ Subtypes (loại hình phụ): Có thể sử dụng hai loại tệp mãu khác nhau trong chủ đề. các loại tệp này có thể tạo ra nhiều loại mẫu (template) mỗi loại đại diện cho một nội dung trong cửa hàng trực tuyến của người bán 
-
-+ File types (Các loại tệp):  Có 2 loại tệp khác nhau có thể sử dụng cho một mẫu chủ đề: JSON or Liquid. có một số template chỉ hỗ trọ cho liqui, trong  khi các loại mẫu khác hỗ trợ loại tập mẫu.
-	+ JSON: mẫu json là các tệp dữ liệu có phần mở rộng tệp. Các mẫu này cho phép chúng ta dễ dàng điền vào mẫu của mình với nội dung từ các phần. Người bán có thể thêm sử xóa hoặc sắp xếp lại các mục bằng trình chỉnh sửa chủ đề. Nếu bạn đang sử dụng mãu JSON mọi HTML haowjc Liquid đều cần được được dưa vào phần được mẫu tham chiếu
-	+ Liquid: mẫu liquid là tệp đánh dầu liquid, có phần mở rộng, bạn có thể thêm liquid và HTML trực tiếp vào template liquid có đuôi .Liquid
-
-+ JSON vs Liquid: Nếu bạn muốn sử dụng các phần trong một mẫu, thì bạn nên sử dụng mẫu JSON 
-+ Template type: Các loại mẫu có sẵn đại diện cho một loại nội dung trong cửa hàng trực tuyến của thương nhân. Tuy nhiên, bạn phải có một mẫu phù hơp cho bất kỳ loại trang nào bạn muốn hiển thị. VD: để hiển thị trang sản phẩm bạn càn ít nhất 1 loại .product. Bjan có tối đã 100 mẫu json tỏng chủ để của mình. trên tất cả các loại mãu. Bạn có thẻ sử dụng các loại mẫu sau trong chủ đề của mình.  
-
-* json template:
-- schema: 
-+ Attribute name có type là string. Nó là tên cho mẫu.
-+ Attribute layout có type là string or false. Nó là Tên tệp của bố cục để sử dụng khi hiển thị mẫu. VD: chỉ dịnh "full width" để hiển thị layut/ full-width.liquid. Bố cục mặc định là theme.liquid. Sử dụng giá trị false để hiển thị mẫu mà không có bố cục. Khổng thể tùy chỉnh các mẫu không có bố cục trong trình chỉnh sửa chủ đề.
-+ Attribute wrapper có type là string. nó là phan ftuwr bao bọc html cho các phần của section của template.
-+ Attribute section có type là object và mỗi đối tượng sử dụng id làm khóa và dữ liệu phần làm giá trị. thuộc tính này cần chứa ít nhát một phần. id ko được trùng lập. định dạng của dữ liệu phần giống như dữ liệu phần trong setting_data.json. các json template có thể hiển thi tối đa 25 section và mỗi section có thể có tối đã 50 block.
-+ Attribute order có type là mảng (array). nó có nghĩa là một mảng ID phàn. được liệt kê theo thứ tự chúng sẽ được hiển thị. Các ID phải tồn tại trong đối tượng section. không được phép trùng lập
-
-* Naming json template (đặt tên cho các json template)
-
-- Tên tệp phải là loại mẫu chủ đề hợp lệ, với hậu tố tùy chọn cho mẫu thay thế. Ví dụ: một mẫu sản phẩm có thể được đặt tên hoặc .product.jsonproduct.alternate.json
-
-- Một mẫu chỉ có thể tồn tại dưới dạng mẫu JSON hoặc Liquid, không phải cả hai. Ví dụ: nếu đã tồn tại, thì bạn không thể tạo tệp .product.liquidproduct.json
-
-* The wrapper property (Thuộc tính wrapper)
-
-- The property makes it possible to insert HTML tags around all of the sections in a JSON template. You can use the following HTML tags:wrapper (dịch là Thuộc tính này giuspbajn có thể chèn thẻ html xung quanh tất cả các phần trong mẫu json. Bạn có thể sử dụng các thẻ HTML sau wrapper)
-+ <div>
-+ <main>
-+ <section>
-
-* section data (Phần dữ liệu )
-- The attribute of JSON templates holds the data for the sections to be rendered by the template. These can be either theme sections or app sections. You can't share section data across JSON theme templates, so each section must have an ID that's unique within the template.sections 
--> (dich ra  có nghĩa là Thuộc tính của mãu json chứa dữ liệu cho các phần được hiển thị bởi mẫu. Đây có thể là phần chủ đề hoặc phần ứng dụng. bjan không thể chia sẻ dữ liệu phần trên các mẫu chủ đề json, vì vậy mỗi phàn phải có một ID duy nhất trong template.sections).
-
-- JSON templates can render up to 25 sections, and each section can have up to 50 blocks. -> (các mẫu json có thể hiển thị tối đa 25 phần và mỗi phần có thể có tối đã 50 khối)
-
-- You can add sections to a template in code, or through the theme editor. The sections that are available to be added to a template in the theme editor might be limited by the templates attribute of the section schema. If no attribute is defined, then the section can be added to any template.templates -> (dịch ra Bạn có thể thêm các phần vào mẫu trong mã hoặc thông qua trình chỉnh sửa chủ đề. Các phần có sẵn để thêm vào mẫu trong trình chỉnh sửa chủ đề có thể bị giới hạn bởi thuộc tính mẫu của lược đồ mục. Nếu không có thuộc tính nào được xác định, thì phần này có thể được thêm vào bất kỳ template.templates nào )
-
-- The following table outlines the format of section data: (có nghĩa là bản sau là bảng liệt kê các dịnh dạng của phàn dữ liệu)
-
-+ <SectionID> có type String nó định nghĩa là một ID duy nhát cho section. Chỉ chấp nhận các ký tự chữ và số
-
-+ <SectionType> có type là String ý nghĩa là tên tệp của phàn tệp cần heienr thị và không có phần mở rộng 
-
-+ <SectionDisabled> có type là	Boolean có nội dung là khi phần ko thể hiển thị nhwung vãn có thể tùy chỉnh tỏng trình chỉnh sửa của chủ đề. Là thoe mặc định true fales
-
-+ <BlockID>	có type là string có nội dung là Một ID duy nhất cho khối. Chỉ chấp nhận các ký tự chữ và số.
-
-+ <BlockType> có type là string có nội dung là Có Loại khối để hiển thị, như được xác định trong lược đồ của tệp phần.
-
-+ <BlockOrder> có type là array có nội dung là Một mảng ID khối, được sắp xếp theo thứ tự như chúng sẽ được hiển thị. Các ID phải tồn tại trong đối tượng và không được phép sao chép.blocks
-
-+ <SettingID> có type là string	có nội là ID của một tùy chọn cài đặt như được xác định trong lược đồ của phần hoặc khối.
-+ <SettingValue> có type là multiple và có nội dung là Một giá trị hợp lệ cho cài đặt.
-
-* article 
-- Có nội dung là mẫu bài viết hiển thị trang bài viết, trong đó chứa đẩy dủ nội dung của bài viết, cũng như phần nhận xét tùy chọn cho khách hàng. Nẫu này được sử dụng cho các mục như bài viết cá nhân trong một blog
-
-- location
-The template is located in the directory of the theme:articletemplates (Mẫu nằm trong thư mục của chủ đề:articletemplates)
-└── theme
-    	├── layout
-    	├── templates
-    	|   ├── 404.json
-    	|   ├── article.json
-    	|   ...
-    	...
-
-- Content 
-+ Bạn nên bao gồm những điều sau đây trong mẫu của bạn hoặc một phần bên trong mẫu:article:
-		+ The article objectInput	type	name
-Name	text	comment[author]
-Email	email	comment[email]
-Comment	textarea	comment[body]
-		+ The comment form
-
-- The article objectAnchor
-+ Bạn có thể truy cập vào đối tượng Liquid article để hiển thị chi tiết bài viết.
-
-- The comment form:
-+ Bạn có thể thêm biểu mẫu nhận xét bằng thẻ Biểu mẫu lỏng và thông số đi kèm. Trong khối thẻ biểu mẫu, bạn cần bao gồm những thông tin sau:'new_comment', article
-
-Input	 			type						name
-Name	 			text						comment[author]
-Email	 			email						comment[email]
-Comment			textarea				comment[body]
-
-- Paginate article comments:
-+ Nhận xét bài viết có thể được truy cập thông qua đối tượng bài viết và có giới hạn 50 mỗi trang. Vì lý do này, bạn nên phân trang các nhận xét của bài viết để đảm bảo rằng tất cả chúng đều có thể truy cập được:
-
-VD: 
-{% paginate article.comments by 20 %}
-  {% for comment in article.comments %}
-    <!-- comment info -->
-  {% endfor %}
-
-  {{ paginate | default_pagination }}
-{% endpaginate %}
-
-* Blog 
-- Mãu blog hiển thị trang blog, trong đó liệt kê tất cả ccasc bài viết trong một trang
-
-- location
-+ Mẫu nằm trong thư mục của chủ đề:blogtemplates
-
-└── theme
-    ├── layout
-    ├── templates
-    |   ...
-    |   ├── blog.json
-    |   ...
-    ...
-
-- content
-+ Bạn nên bao gồm đối tượng blog trong mẫu của mình hoặc một phần bên trong mẫu.blog
-
-- the blog object 
-+ Bạn có thể truy cập đối tượng Blog Liquid để hiển thị chi tiết blog.
-
-- Filter articles by tag
-+ Bạn có thể sử dụng thẻ bài viết để lọc blog thành các tập hợp con nhỏ hơn của bài viết. Điều này được thực hiện bằng cách thêm vào URL blog, trong đó là phiên bản được xử lý của thẻ bài viết mong muốn.\/tagged\/[tag-handle][tag-handle]
-
-+ Ví dụ: nếu bạn muốn chỉ hiển thị các bài viết từ blog được gắn thẻ, thì bạn có thể sử dụng cấu trúc URL sau: Main News
-
-https://my-store.myshopify.com/blogs/main/tagged/news
-
-+ Bạn cũng có thể lọc bằng nhiều thẻ bằng cách kết hợp các thẻ được xử lý với A:+
-https://my-store.myshopify.com/blogs/main/tagged/news+breaking
-
-* cart 
-- mẫu giỏ hàng hiển thị trang giỏ hàng, cung cấp một cách nhìn tổng quan về nội dung của ior hàng của khách hàng. Tổng quan thường được hiển thị ở định dạng bảng với một hàng cho mỗi mục hàng.
-
-- location 
-+ Cart template nằm trong thư mục templates của theme: 
-└── theme
-    ├── layout
-    ├── templates
-    |   ...
-    |   ├── cart.json
-    |   ...
-    ...
-
-- content: Bạn nên bao gồm đối tượng giỏ hàng trong mẫu giỏ hàng của bạn hoặc một phần bên trong mẫu.
-
-- The cart object
-+ bạn có thể truy cập vào giỏ hàng.liquid để hiển thị chi tiết giỏ hàng 
-
-- Usage
-+ Khi làm việc với template, bạn nên làm quen với những điều sau: giỏ hàng
-
-- Cart line items
-+ Line_item là một dong duy nhất trong giỏ hàng ghi lại biến thể của sản phẩm đã được thêm vào số lượng liên quan. VD  nếu khách hàng thêm cả hai và cùng một chiếc áo, thì mỗi chiếc áo phông có mục hàng riêng size medium size large t-shirt
-+ VD:
-{% for item in cart.items %}
-  <!-- line item info -->
-{% endfor %}
-
-
-- Proceed to checkout (Tiến hành thanh toán)
-+ Để cho phép khách hàng tiến hành thanh toán từ giỏ hàng, bạn cần xuất các mục hàng giỏ hàng bên trong một phần tử. Phần tử form cần phải có các thuộc tính của và .<form>action="{{ routes.cart_url }}"method="post"
-
-+ Phần tử biểu mẫu cũng cần bao gồm một với các thuộc tính của và . Đầu vào này kích hoạt tiến hành thanh toán.<input>type="submit"name="checkout"
-
-+ VD:
-<form action="{{ routes.cart_url }}" method="post">
-  {% for item in cart.items %}
-    <!-- line item info -->
-  {% endfor %}
-
-  <input type="submit" name="checkout" value="Checkout">
-</form>
-
-- Remove line items from the cart
-+ Bạn nên cung cấp cho khách hàng tùy chọn xóa mục hàng khỏi giỏ hàng của họ. Bạn có thể làm điều này bằng cách bao gồm một phần tử với mỗi mục hàng, có thuộc tính tham chiếu đến thuộc tính của đối tượng line_item:<a>hrefurl_to_remove
-
-+ Ví dụ:
-{% for item in cart.items %}
-  	<!-- line item info -->
-  	<a href="{{ item.url_to_remove }}">Remove</a>
-{% endfor %}
-
-- Update line item quantities
-+ Bạn nên cung cấp cho khách hàng tùy chọn cập nhật số lượng mục hàng trong giỏ hàng của họ. Bạn có thể làm điều này bằng cách bao gồm một phần tử với mỗi mục hàng có các thuộc tính của và:<input>name="updates[]"value=""
-+ VD:
-{% for item in cart.items %}
-  <!-- line item info -->
-
-  <input type="text" name="updates[]" value="{{ item.quantity }}">
-{% endfor %}
-
-+ Để thực sự kích hoạt cập nhật khi đầu vào số lượng được thay đổi, bạn có thể bao gồm một thuộc tính có trong giỏ hàng:<input>type="submit"<form>
-+ VD: <input type="submit" value="Update cart">
-
-- Show cart and line item discounts (Hiển thị giảm giá cho gải hàng và mục hàng)
-+ VÌ chiết khẩu có thể áp dụng cho toàn bộ giỏ hàng hoặc cho các mục hàng rieng lẻ, bạn nên hiển thị chiết khấu với tổng số giỏ hàng và hiển thị từng mục hàng với giỏ hàng riêng lẻ.
-
-- Support cart notes and attributes (Hỗ trợ gi chú và thuộc tính giỏ hàng)
-+ Bạn có thể cung cấp cho khách hàng tùy chọn bao gồm thông tin bổ sung với đơn đặt hàng của họ thông qua ghi chú và thuộc tính giỏ hàng.
-
-- cart notes
-+ Dùng để ghi chứ giỏ hàng, bao gồm đầu vào HTML, thường là a, với một thuộc tính của bên trong giỏ hàng: <textarea> name = "note" <form>
-
-+ VD: <textarea name="note"></textarea>
-+ Bạn có thể truy cập giá trị này thông qua thuộc tính của cart object.note
-
-- Cart attributes
-+ Để thu được thuộc tính giỏ hàng, bao gồm đầu vào HTML với thuộc tính của bên trong giỏ hàng: name = "thuộc tính [tên thuộc tính]" <Form>
-
-+ VD: 
-<p>
-  <label>Please let us know your favorite color</label>
-
-  <input type="text" name="attributes[Favorite color]" value="{{ cart.attributes['Favorite color'] }}">
-</p>
-+ Mọi giá trị đều có thể truy cập được thông qua thuộc tính của đối tượng giỏ hàng.attributes
-
-- Display line item propertiesAnchor ()
-+ Khi các mặt hàng được thêm vào giỏ hàng, chúng có thể có các thuộc tính mục hàng đi kèm với chúng. Bạn có thể hiển thị các thuộc tính này trên trang giỏ hàng bằng cách lặp qua từng thuộc tính:
-
-+ Ví dụ: 
-{% for item in cart.items %}
-  <!-- line item info -->
-
-  {% unless item.properties == empty %}
-    {% for property in item.properties %}
-      {{ property.first }}:
-
-      {% if property.last contains '/uploads/' %}
-        <a href="{{ property.last }}">{{ property.last | split: '/' | last }}</a>
-      {% else %}
-        {{ property.last }}
+* Shopify là gì??
+  - Shopify là nền tảng thương mại điện tử cho phép ng dùng tạo web bán hàng online, Người dùng có thể tạo cho mình một website bán hàng online với tất cả những tính năng như đăng sản phẩm, giỏ hàng, thanh toán, quản lý hàng hóa hay kết nối mạng xã hội.
+
+  - shopify theme là nơi tạo ra những bản thiết kế giao diện diện của trang web. Nó cx có nhiều loại giao diện khác nhau, giúp người bán có thể lựa chọn giao diện cửa hàng phù hợp với sản phẩm của mình.
+
+  - Làm sao để tạo một theme trên shopify?? 
+    + B1: đăng kí tài khoản shopify và tạo store trên shopify 
+    + B2: Cài đặt môi trường shopify Cli
+    + B3: Khởi tạo theme mới bằng Dawn
+    + B6: Kết nối theme vừa cài đặt với store trên shopify
+    + B7: Chạy chủ đề bằng câu lệnh "shopify theme serve" trong terminal 
+    + B8: Đẩy theme lên github và kết nối theme đó với môi trường store online trên shopify
+
+  - Shopify liquid là: ngôn ngữ template do shopify tạo ra. Nó có sẵn dưới dạng mã nguồn mở trên Github và được sử dụng bởi nhiều dự án và công ty phần mềm khác nhau.
+
+  - Có mấy kiểu store trên shopify: có 2 kiểu store trên shopify là 
+      + Development store (Cửa hàng thử nghiệm)
+      + Managed store (Cửa hàng quản lý)
+
+** Overview
+  - Theme architecture (Kiến trúc chủ đề)
+    + 
+  
+  - Content
+    +
+
+  - content
+  - Markup and features
+  - Supporting assets
+  - Allowing for customization of theme components
+  - Directory structure and component types
+    * assets:
+      - Thư mục assets chứa tất cả các nội dung được sử dụng trong mỗi chủ đề, bo gồm các tệp hình ảnh, css và JS
+      - sử dụng bộ lọc assets_url liquid URL để tham chiếu đến nội dung trong chủ đề.
+      - Bạn có thể truy cập chức năng liquid giới hạn trong các tệp tài sản không nhị phân bằng cách thêm tiện ích mở rộng. Các trường hợp sử dụng phổ biến bao gôm JS và css. các tệp. tệp có phần mở rộng này có quyền truy cập vào các tính năng sau: .liquid.js.liquid.css.liquid
+        + the settings object
+        + liquid filters
+
+    * config 
+      - Thư mục cấu hình chứa các tệp cấu hình cho một chủ đề. Cấu hình tệp xác định cài đặt trong khu vực Cài đặt chủ đề của trình chỉnh sửa chủ đề, cũng như lưu trữ các giá trị của chúng
+      - Cài đặt chủ đề là một nơi lưu trữ các cài đặt chung như kiểu chữ và tùy chọn màu. cài đặt chủ đề có thể được truy cập thông qua đối tượng cài đặt.
+    
+    * Layout 
+      - Thư mục layout chứa ccasc tệp layout cho một chủ đề, thông qua đó các tệp mẫu đuwojc hiển thị.
+      - layout là các tệp liquid cho phép bạn bao gồm nội dung cần được lập lại trên nhiều loại trang ở một vị trí duy nhất. VD: Bố cục là một nơi tốt để bao gồm bất kỳ nội dung nào bạn có thể muốn trong phần tử <head> của mình, cũng như trong header và footer.
+      - Tệp theme.liquid phải tồn tại trong thư mục này để tải chủ đề lên Shopify.
+
+    * Locales
+      - thư mục locales chứa các tệp Locale cho một chủ đề, được sử dụng để cung cấp nội dung được dịch. các tệp locales cho phép bạn cung cấp trải nghiểm dịch trong trình chỉnh sửa chủ đề, cung cấp bản dịch cho cửa hàng trực tuyến và cho phép người bán tùy chỉnh văn bản trong cửa hàng online. 
+
+    * sections
+      - Thư mục sections là nơi chứ các section của một chủ đề.
+      - các phần là các tệp liquid cho phép bạn tạo các mô-đun nội dung có thể tái sử dụng có thể được bao gồm các khối cho phép người bán thêm xóa và sắp xếp lại nội dung trong một section.
+
+    * snippets
+      - thư mục snippets chứa các tệp liquid lưu trữ các đoạn mã nhỏ hơn có thể tái sử dụng. Bạn có thể tham khảo các doạn mã này trong toàn bộ chủ đề bằng thẻ hiển thị liquid.
+    
+    * temlate
+      - thư mục tempalate là chứa các tệp mẫu của một chủ đề, kiểm soát những gì đượ hiển thị trên từng loại trang.
+      - Thư mục templates/customers chứa các tệp tempalate cho các trang lấy khách hàng làm trung tâm như đăng nhập và thông tin tài khoản.
+      - Bạn có thể sử dụng tempalate để thêm chức năng có ý nghĩa cho loại trang. VD: Bạn có thể thêm đề xuất sản phẩm bổ sung vào tempalate sản phẩm haowjc thêm biểu mẫu nhận xét vào mẫu bài viết. Bjan cũng có thể tạo nhiều phiên bản của cùng một loại mẫu để tạo các mẫu tùy chỉnh cho các trường hợp sử dụng khác nhau.
+      - Không có mẫu được yêu cầu. Tuy nhiên, bạn cần phải có một mẫu phù hợp cho bất kỳ loại trang nào bạn muốn hiển thị. Ví dụ: để hiển thị trang sản phẩm, bạn cần có ít nhất một mẫu sản phẩm loại.
+
+    - assets: là nơi chứa toàn bộ tài sản dùng chung của một con theme, như css, image, JS. Nếu xóa fodel này đi thì theme vẫn hoạt động bình thường.
+
+    - config là nơi lưu trữ nhwunxg file cấu hình của một con theme trong đó có 2 file đó là: 
+      + settings_data.json là nơi lưu trữ những giá trị mà người bán chỉnh sửa trong phần của theme setting của trình chỉnh sửa chủ đề.
+      + settings_schema là file chứa những nội dung hiển thị của một con theme như tên, phiên bản của một con theme và những thông tin cấu hình lên một con theme.
+
+    - Layout là nơi chứa những flie hiển thị giao diện của theme 
+
+    - section là fodel lưu trữ những  phần nội dung của một con theme. trong mỗi phần có những khối hiển thị nội dung
+
+    - locale là fodel những file biên dịch ra ngôn ngữ khác nhau của theme. Trong đó chúng ta chủ ý đển 2 lạoi định dạng file đó là:
+      + language.json là file phiên dịch những nội dung hiển thị của giao diện cửa hàng 
+      + language.schema.json là file phiên dịch những thuộc tính cài dặt khác nhau sang các ngôn ngữ đang dùng của cửa hàng
+   
+    - snippets là fodel chứa nhwunxg file icon của chủ đề
+
+    - tempalate là fodel chứa những flie temlate kiểm tra những nội dung được hiển thị của trang trong chủ đề.
+      - template cần nhwunxg loại: 
+      
+** Layouts
+  * Overview
+    - 
+  
+  * Checkout.liquid
+    - Overview
+      + 
+
+    - customer checkout.liquid
+      +
+
+    - checkbox CSS
+      + 
+
+** Template
+  * Overview
+    - 
+  
+  * JSON templates
+    - 
+
+  * article 
+    - Có nội dung là mẫu bài viết hiển thị trang bài viết, trong đó chứa đẩy dủ nội dung của bài viết, cũng như phần nhận xét tùy chọn cho khách hàng. Nẫu này được sử dụng cho các mục như bài viết cá nhân trong một blog
+
+    - location
+    The template is located in the directory of the theme:articletemplates (Mẫu nằm trong thư mục của chủ đề:articletemplates)
+    └── theme
+          ├── layout
+          ├── templates
+          |   ├── 404.json
+          |   ├── article.json
+          |   ...
+          ...
+
+    - Content 
+    + Bạn nên bao gồm những điều sau đây trong mẫu của bạn hoặc một phần bên trong mẫu:article:
+        + The article objectInput	type	name
+    Name	text	comment[author]
+    Email	email	comment[email]
+    Comment	textarea	comment[body]
+        + The comment form
+
+    - The article objectAnchor
+    + Bạn có thể truy cập vào đối tượng Liquid article để hiển thị chi tiết bài viết.
+
+    - The comment form:
+    + Bạn có thể thêm biểu mẫu nhận xét bằng thẻ Biểu mẫu lỏng và thông số đi kèm. Trong khối thẻ biểu mẫu, bạn cần bao gồm những thông tin sau:'new_comment', article
+
+    Input	 			type						name
+    Name	 			text						comment[author]
+    Email	 			email						comment[email]
+    Comment			textarea				comment[body]
+
+    - Paginate article comments:
+    + Nhận xét bài viết có thể được truy cập thông qua đối tượng bài viết và có giới hạn 50 mỗi trang. Vì lý do này, bạn nên phân trang các nhận xét của bài viết để đảm bảo rằng tất cả chúng đều có thể truy cập được:
+
+    VD: 
+    {% paginate article.comments by 20 %}
+      {% for comment in article.comments %}
+        <!-- comment info -->
+      {% endfor %}
+
+      {{ paginate | default_pagination }}
+    {% endpaginate %}
+
+  * Blog 
+    - Mãu blog hiển thị trang blog, trong đó liệt kê tất cả ccasc bài viết trong một trang
+
+    - location
+      + Mẫu nằm trong thư mục của chủ đề:blogtemplates
+      └── theme
+          ├── layout
+          ├── templates
+          |   ...
+          |   ├── blog.json
+          |   ...
+          ...
+
+    - content
+      + Bạn nên bao gồm đối tượng blog trong mẫu của mình hoặc một phần bên trong mẫu.blog
+
+    - the blog object 
+      + Bạn có thể truy cập đối tượng Blog Liquid để hiển thị chi tiết blog.
+
+    - Filter articles by tag
+      + Bạn có thể sử dụng thẻ bài viết để lọc blog thành các tập hợp con nhỏ hơn của bài viết. Điều này được thực hiện bằng cách thêm vào URL blog, trong đó là phiên bản được xử lý của thẻ bài viết mong muốn.\/tagged\/[tag-handle][tag-handle]
+      + Ví dụ: nếu bạn muốn chỉ hiển thị các bài viết từ blog được gắn thẻ, thì bạn có thể sử dụng cấu trúc URL sau: Main News
+      + https://my-store.myshopify.com/blogs/main/tagged/news
+      + Bạn cũng có thể lọc bằng nhiều thẻ bằng cách kết hợp các thẻ được xử lý với A:+
+      + https://my-store.myshopify.com/blogs/main/tagged/news+breaking
+
+  * cart 
+    - mẫu giỏ hàng hiển thị trang giỏ hàng, cung cấp một cách nhìn tổng quan về nội dung của ior hàng của khách hàng. Tổng quan thường được hiển thị ở định dạng bảng với một hàng cho mỗi mục hàng.
+
+    - location 
+      + Cart template nằm trong thư mục templates của theme: 
+      └── theme
+          ├── layout
+          ├── templates
+          |   ...
+          |   ├── cart.json
+          |   ...
+          ...
+
+    - content: Bạn nên bao gồm đối tượng giỏ hàng trong mẫu giỏ hàng của bạn hoặc một phần bên trong mẫu.
+
+    - The cart object
+      + bạn có thể truy cập vào giỏ hàng.liquid để hiển thị chi tiết giỏ hàng 
+
+    - Usage
+      + Khi làm việc với template, bạn nên làm quen với những điều sau: giỏ hàng
+
+    - Cart line items
+      + Line_item là một dong duy nhất trong giỏ hàng ghi lại biến thể của sản phẩm đã được thêm vào số lượng liên quan. VD  nếu khách hàng thêm cả hai và cùng một chiếc áo, thì mỗi chiếc áo phông có mục hàng riêng size medium size large t-shirt
+      + VD:
+      {% for item in cart.items %}
+        <!-- line item info -->
+      {% endfor %}
+
+
+    - Proceed to checkout (Tiến hành thanh toán)
+      + Để cho phép khách hàng tiến hành thanh toán từ giỏ hàng, bạn cần xuất các mục hàng giỏ hàng bên trong một phần tử. Phần tử form cần phải có các thuộc tính của và .<form>action="{{ routes.cart_url }}"method="post"
+      + Phần tử biểu mẫu cũng cần bao gồm một với các thuộc tính của và . Đầu vào này kích hoạt tiến hành thanh toán.<input>type="submit"name="checkout"
+      + VD:
+      <form action="{{ routes.cart_url }}" method="post">
+        {% for item in cart.items %}
+          <!-- line item info -->
+        {% endfor %}
+        <input type="submit" name="checkout" value="Checkout">
+      </form>
+
+    - Remove line items from the cart
+      + Bạn nên cung cấp cho khách hàng tùy chọn xóa mục hàng khỏi giỏ hàng của họ. Bạn có thể làm điều này bằng cách bao gồm một phần tử với mỗi mục hàng, có thuộc tính tham chiếu đến thuộc tính của đối tượng line_item:<a>hrefurl_to_remove
+      + Ví dụ:
+      {% for item in cart.items %}
+          <!-- line item info -->
+          <a href="{{ item.url_to_remove }}">Remove</a>
+      {% endfor %}
+
+    - Update line item quantities
+      + Bạn nên cung cấp cho khách hàng tùy chọn cập nhật số lượng mục hàng trong giỏ hàng của họ. Bạn có thể làm điều này bằng cách bao gồm một phần tử với mỗi mục hàng có các thuộc tính của và:<input>name="updates[]"value=""
+      + VD:
+      {% for item in cart.items %}
+        <!-- line item info -->
+        <input type="text" name="updates[]" value="{{ item.quantity }}">
+      {% endfor %}
+      + Để thực sự kích hoạt cập nhật khi đầu vào số lượng được thay đổi, bạn có thể bao gồm một thuộc tính có trong giỏ hàng:<input>type="submit"<form>
+      + VD: <input type="submit" value="Update cart">
+
+    - Show cart and line item discounts (Hiển thị giảm giá cho gải hàng và mục hàng)
+      + VÌ chiết khẩu có thể áp dụng cho toàn bộ giỏ hàng hoặc cho các mục hàng rieng lẻ, bạn nên hiển thị chiết khấu với tổng số giỏ hàng và hiển thị từng mục hàng với giỏ hàng riêng lẻ.
+
+    - Support cart notes and attributes (Hỗ trợ gi chú và thuộc tính giỏ hàng)
+      + Bạn có thể cung cấp cho khách hàng tùy chọn bao gồm thông tin bổ sung với đơn đặt hàng của họ thông qua ghi chú và thuộc tính giỏ hàng.
+
+    - cart notes
+      + Dùng để ghi chứ giỏ hàng, bao gồm đầu vào HTML, thường là a, với một thuộc tính của bên trong giỏ hàng: <textarea> name = "note" <form>
+      + VD: <textarea name="note"></textarea>
+      + Bạn có thể truy cập giá trị này thông qua thuộc tính của cart object.note
+
+    - Cart attributes
+      + Để thu được thuộc tính giỏ hàng, bao gồm đầu vào HTML với thuộc tính của bên trong giỏ hàng: name = "thuộc tính [tên thuộc tính]" <Form>
+      + VD: 
+      <p>
+        <label>Please let us know your favorite color</label>
+        <input type="text" name="attributes[Favorite color]" value="{{ cart.attributes['Favorite color'] }}">
+      </p>
+      + Mọi giá trị đều có thể truy cập được thông qua thuộc tính của đối tượng giỏ hàng.attributes
+
+    - Display line item propertiesAnchor ()
+      + Khi các mặt hàng được thêm vào giỏ hàng, chúng có thể có các thuộc tính mục hàng đi kèm với chúng. Bạn có thể hiển thị các thuộc tính này trên trang giỏ hàng bằng cách lặp qua từng thuộc tính:
+      + Ví dụ: 
+      {% for item in cart.items %}
+        <!-- line item info -->
+        {% unless item.properties == empty %}
+          {% for property in item.properties %}
+            {{ property.first }}:
+            {% if property.last contains '/uploads/' %}
+              <a href="{{ property.last }}">{{ property.last | split: '/' | last }}</a>
+            {% else %}
+              {{ property.last }}
+            {% endif %}
+          {% endfor %}
+        {% endunless %}
+      {% endfor %}
+
+  * collection ()
+    - Mẫu bộ sưu tập hiển thị trang bộ sưu tập, liệt kê tất cả các sản phẩm trong một bộ sưu tập.
+
+    - Location (Vị trí)
+    + Mẫu collection (Bộ sưu tập) được đặt trong thư mực template của chủ đề
+    └── theme
+        ├── layout
+        ├── templates
+        |   ...
+        |   ├── collection.json
+        |   ...
+        ...
+
+    - content: Bạn nên bao gồm collection object trong mẫu bộ sưu tập haowjc một phần bên trong mẫu.
+
+    - The collection object (Đối tượng bộ sưu tập)
+    + Bạn có thể truy cập liquid collection object để hiển thị các chi tiết của collection
+
+    - Sử dụng: 
+    + Khi làm việc temlate, bạn nên tự làm quen với những điều sau: collection
+      + Lọc 
+      + Sắp xếp sản phẩm trong bộ sưu tập
+      + phân trang 
+
+    - Filter collection (Bộ lọc bộ sưu tập)
+    + Bạn có thể sử dụng lọc storefront để lọc các bộ sưu tập vào thành các tập hợp con sản phẩm nhỏ hơn 
+
+    - Sort products in a collection (sắp xếp sản phẩm trong bộ sưu tập)
+    + Bạn có thể chọn thứ tự sắp xếp sản phảm thông qua tham số URL trên trang bộ sưa tập: sort_by
+    + VD: https://my-store.myshopify.com/collections/frontpage?sort_by=price-descending
+    + Thông qua đối tượng collection, bạn có thể truy cập như sau:
+      + Các tùy chọn có sẵn với thuộc tính sort_options.
+      + Tùy chọn được hiển thị được chọn, nếu một tùy chọn được chọn, với thuộc tính sort_by
+      + Tùy chọn mặc định với thuộc tính default_sort_by
+    + Bạn có thể xuất các tùy chọn có sẵn tỏng một phần tử để khách ahfng thực hiện lực chọn của họ và bạn có thể khởi tạo bộ chọn dựa trên các tùy chọn hiển tại và mặc định.
+    Khi một lực chọn mới được thực hiện bạn nên sử dụng JS để thêm tham số URL và làm mới trang.
+
+    + Sau đây là một ví dụ đơn giản về bộ chọn thứ tự sắp xếp và JS đi kèm:
+    + VD:
+    <select id="sort-by">
+      {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+
+      {% for option in collection.sort_options %}
+        <option value="{{ option.value }}" {% if option.value == sort_by %}selected="selected"{% endif %}>
+          {{ option.name }}
+        </option>
+      {% endfor %}
+    </select>
+
+    <script>
+      Shopify.queryParams = {};
+
+      // Preserve existing query parameters
+      if (location.search.length) {
+        var params = location.search.substr(1).split('&');
+
+        for (var i = 0; i < params.length; i++) {
+          var keyValue = params[i].split('=');
+
+          if (keyValue.length) {
+            Shopify.queryParams[decodeURIComponent(keyValue[0])] = decodeURIComponent(keyValue[1]);
+          }
+        }
+      }
+
+      // Update sort_by query parameter on select change
+      document.querySelector('#sort-by').addEventListener('change', function(e) {
+        var value = e.target.value;
+
+        Shopify.queryParams.sort_by = value;
+        location.search = new URLSearchParams(Shopify.queryParams).toString();
+      });
+    </script>
+
+    - Paginate products (Phần phân trang của bộ sưu tập)
+    + Các sản phảm có thể truy cập thông qua thuộc tính của collection object và giới hạn 50 mỗi trang. VÌ lý do này bạn nên phân trang các sản phẩm của bộ sưu tập để đảm bảo rằng tất cả chúng đều có thể truy cập được: sản phẩm
+    + VD:
+    {% paginate collection.products by 20 %}
+      {% for product in collection.products %}
+        <!-- product info -->
+      {% endfor %}
+
+      {{ paginate | default_pagination }}
+    {% endpaginate %}
+
+  * customers/account
+    - có nội dung là: templates customers/account hiển thị trang tài khoản khách hàng, cung cáp thong tin tổng quan về tài khoản khách hàng.
+
+    - Location (Vị trí)
+    + Mẫu  customers/account đượt đặt trong template > thực mục customers(khách hàng) của chủ đề
+    └── theme
+        ├── layout
+        ├── templates
+        |   └── customers
+        |     ├── account.json
+        |     ...
+        ...
+    - Content 
+    + Bạn nên bao gồm đối tượng khách hàng trong mẫu khách hàng/ tài khoản của mình haowjc một phần bên tỏng mẫu 
+
+    - Usage (sử dụng)
+    + khi làm việc với mẫu, bạn nên tự làm quen với những điều sau: Khách hàng / tài khoản 
+      + hiển thị đơn đặt hàng của khách hàng 
+      + hiển thị địa chỉ mặc định của khách hàng 
+
+    - Show the customer’s orders (hiển thị đơn đặt hàng của khách hàng):
+      + Bạn nên hiển thị cho khashc hàng một danh sách các đơn đặt hàng của họ, chúng có thể được truy cập thông qua thuộc tính order của đối tượng khách hàng và có giới hạn 20 đơn mỗi trang. Vì lý do này bạn nên ohana trang các dơn dặt hàng để đảm bảo rằng tát cả chúng đều có thể hiển thị được
+
+      +VD: 
+      {% paginate customer.orders by 10 %}
+        {% for order in customer.orders %}
+          <!-- order info -->
+        {% endfor %}
+
+        {{ paginate | default_pagination }}
+      {% endpaginate %}
+
+    - Show the customer’s default address (hiển thị địa chỉ mặc định của khách hàng)
+      + Bạn nên hiển thị cho khách hàng địa chỉ mặc định của họ. Điều này có thể được truy câp thông qua thuộc tính default_address của đối tượng khách hàng:
+
+      +VD:
+      {% if customer.default_address %}
+        <p>{{ customer.default_address.address1 }}</p>
+
+        {% if customer.default_address.address2 != blank %}
+          <p>{{ customer.default_address.address2 }}</p>
+        {% endif %}
+
+        <p>{{ customer.default_address.city }}, {% if customer.default_address.province_code %}{{ customer.default_address.province_code }}{% endif %}, {{ customer.default_address.country_code }}
+        <p>{{ customer.default_address.zip_code }}</p>
+        <p>{{ customer.default_address.phone }}</p>
       {% endif %}
-    {% endfor %}
-  {% endunless %}
-{% endfor %}
 
-* collection ()
+  * customers/activate_account (khách hàng / kích hoạt tài khỏan)
+    - Mẫu hiển thị trang kích hoạt tài khoản khách hàng , nơi lưu trữ biểu mẫu để kích hoạt tài khoản khách hàng.
 
-- Mẫu bộ sưu tập hiển thị trang bộ sưu tập, liệt kê tất cả các sản phẩm trong một bộ sưu tập.
+    - Location (vị trí)
+      + Mẫu T năm trong thư mục > của chủ đề: khách hàng/ activate_account mẫu khách hàng
+      + └── theme
+        ├── layout
+        ├── templates
+        |   └── customers
+        |     ├── activate_account.json
+        |     ...
+        ...
+
+    - Content (Nội dung)
+      + Bạn nên bao gồm biểu mẫu kích hoạt tài khoản khashc hàng trong mẫu của mình hoặc 1 phần bên trong mẫu customers/activate_account 
+
+    - (Biểu mẫu kích hoạt tài khoản khách hàng):
+      + Biểu mẫu kích hoạt tài khoản khách hàng co thể được thêm vào một thẻ biểu mẫu liquid và tham số đi kèm. Trong khối thẻ biểu mẫu, bạn cần bao gồm những thông tin sau:'activate_customer_password'
+
+      + Input	                  type	      name
+        Password	              password	  customer[password]
+        Password confirmation	  password	  customer[password_confirmation]
+
+      +VD:
+      {% form 'activate_customer_password' %}
+        {{ form.errors | default_errors }}
+
+        <div class="password">
+          <label for="password">Password</label>
+          <input type="password" name="customer[password]">
+        </div>
+
+        <div class="password_confirm">
+          <label for="password_confirmation">Password Confirmation</label>
+          <input type="password" name="customer[password_confirmation]">
+        </div>
+
+        <div class="submit">
+          <input type="submit" value="Activate account">
+          <span>or</span>
+          <input type="submit" name="decline" value="Decline invitation">
+        </div>
+      {% endform %}
+
+    - Usage (sử dụng):
+      + Khi làm quen với mãi bạn nên làm quen trc với mãu. customers/activate_account 
+
+    - Preview the template (Xem trước mẫu)
+      + Để xe trc mẫu hãy thực hiện các bước sau: khách hàng/activate_account:
+        + Từ quản trị viên Shopify của bạn, thêm một khách hàng giả trên trang khashc hàng bằng mail của rieng bạn 
+        + Nhấp vào nút ở trên cùng bên phải của trang danh cho khách hàng mới tạo, sau đó nhấp vào Gửi lời mời tài khoản.....
+        + Kiểm tra hộp thư đến email của bạn để tìm email mời tài khoản khách hàng 
+
+  * customers/addresses (Khách hàng/ địa chỉ)
+    - có nội dung là mẫu hiển thị địa chỉ khashc hàng cho phép khách hàng xem và quản lý địa chỉ hiện tại của họ, cũn gnhwu thêm địa chỉ mói. customers/addresses (Khách hàng/địa chỉ)
+
+    - location (Vị trí )
+      + mẫu customers/addresses được dặt trong thư mục templates > customers của chủ đề 
+      + └── theme
+        ├── layout
+        ├── templates
+        |   └── customers
+        |     ├── addresses.json
+        |     ...
+        ...
+
+    - content(nội dung)
+      + bạn nên bao gồm những điều sau trong mẫu khách hàng/ tài khoản của bạn hoặc một phần bên trong mẫu:
+        + Đối tượng khashc hàng
+        + Mẫu form tiêu chuản 
+        
+    - The customer object (Đối tượng khách hàng)
+      + Bạn có thể truy cập đối tượng khách hàng liquid để hiển thị chi tiết tài khoản khách hàng 
+
+    - Standard form inputs (mẫu form tiêu chuẩn)
+      + Bên trong các biểu mẫu để thêm hoặc chỉnh sửa một đia chỉ, có các đàu vào biểu mẫu tiêu chuản cho từng chi tiết địa chỉ. Bảng dưới đây hiển thị từng cái, với các thuộc tính được liên kết và attributes.typename của chúng
+
+      + Input	              type	    name
+        First name	        text	    address[first_name]
+        Last name	          text	    address[last_name]
+        Company	            text	    address[company]
+        Address 1	          text	    address[address1]
+        Address 2	          text	    address[address2]
+        City	              text	    address[city]
+        Country	            select	  address[country]
+        Province	          select	  address[province]
+        ZIP/Postal Code	    text	    address[zip]
+        Phone Number	      tel	      address[phone]
+    - Usage (Sử dụng)
+      + Khi làm việc với mẫu, bạn nên làm quen với những điều sau: Khách hàng/Tài khoản:
+        + Cách thêm địa chỉ mới
+        + cách chỉnh sửa địa chỉ hiện có
+        + cách xóa dịa chỉ
+    - Add a new address (Thêm địa chỉ mới):
+      + Bạn có thể cho phép khách hàng thêm địa chỉ mới bằng thẻ Biểu mẫu thanh khoản thanh khoản và các thông số đi kèm:'customer_address', customer.new_address
+      +VD: 
+      {% form 'customer_address', customer.new_address %}
+        <!-- form content -->
+      {% endform %}
+      + Bên trong biểu mẫu, bạn cần bao gồm các đầu vào biểu mẫu tiêu chuẩn để nắm bắt các chi tiết địa chỉ khác nhau.
+
+    - Edit an existing address 
+      + Với mỗi địa chỉ hiện có, bạn nên bao gồm một biểu mẫu để chỉnh sửa nó. Bạn có thể thêm biểu mẫu này bằng thẻ Liquid form (Biểu mẫu lỏng) và các thông số đi kèm:'customer_address', address
+      +VD:
+      {% for address in customer.addresses %}
+        <!-- address details -->
+
+        {% form 'customer_address', address %}
+          <!-- form content -->
+        {% endform %}
+      {% endfor %}
+
+    - Delete an address (Xóa địa chỉ):
+      + Với mỗi địa chỉ hiện có bạn nên bao gồm tùy chọn để xóa nó. Bạn có thể thêm tùy chọn xóa như như form dưới đây:
+      + <form class="address-delete-form" method="post" action="/account/addresses/{{ address.id }}">
+          <input type="hidden" name="_method" value="delete">
+          <button type="submit">{{ 'customer.addresses.delete' | t }}</button>
+        </form>
+
+  * customers/login (khách hàng/ đăng nhập)
+    - có nội dung là:  Mẫu khách hàng/ dăng nhập hiển thị trang dăng nhập của khách hàng. Noi lưu trữ biểu mẫu để đăng nhập vào tài khoản, khách hàng.
+
+    - Location (Vị trí):
+      + Mẫu customers/login nằm trong thư mục template > customers của theme
+      + └── theme
+      ├── layout
+      ├── templates
+      |   └── customers
+      |     ├── login.json
+      |     ...
+      ...
+
+    - Content (Nội dung)
+      + Bạn nên bao gồm biểu mẫu đăng nhập của khách hàng  trong mẫu của mình hoặc một phàn bên tỏng mẫu customers/login
+      + Theo tùy chọn, bạn có thể bao gôm các tùy chọn "Forgot your password"(Quên mật khẩu) và "guest checkout"(Thanh toán)
+    
+    - The customer login form (Mẫu đăng nhập khách hàng): 
+      + Biểu mẫu đăng nhập của khách hàng, có thể được thêm vào với thẻ biểu mẫu Liquid và tham số đi kèm. Trong khối thẻ biểu mẫu, bạn cần bao gồm những thông tin sau: "customer_login"
+      + Input	      type          name
+        Email	      email	        customer[email]
+        Password	  password	    customer[password]
+      +VD: 
+      {% form 'customer_login' %}
+        {{ form.errors | default_errors }}
+
+        <div class="email">
+          <label for="email">Email</label>
+          <input type="email" name="customer[email]">
+        </div>
+
+        <div class="password">
+          <label for="password">Password</label>
+          <input type="password" name="customer[password]">
+        </div>
+
+        <div class="submit">
+          <input type="submit" value="Sign in">
+        </div>
+      {% endform %}
+
+    - Usage (sử dụng):
+      + Khi làm việc với mẫu, bạn nên làm quen những điều sau: Khách hàng/ tài khoản
+        + Liên kết đến trang đăng nhập
+        + Cung cấp tùy chọn "Quên mật khẩu"
+        + Cung cấp dịch vụ thanh toán
+        + Chuyển hướng khashc hàng khi đăng nhập
+
+    - Link to the login page (Liên kết đến trang đăng nhập)
+      + Khi liên kết đến trang đăng nhập, bạn cần xem xét cài đặt tài khoản khách hàng của cửa hàng, cũng như trạng thái đăng nhập hiện tại
+      +VD: Bạn không cần hiển thị bất kỳ liên kết nào nếu tài khoản khách hàng không được bật. Nếu khách hàng đã đăng nhập, bạn có thể liên kết đến trang tài khoản để thay thế. Nếu tài khoản khách hàng được bật và tùy chọn và khách hàng chưa đăng nhập, bạn có thể hiển thị liên kết đến trang đăng ký:
+
+      +VD:
+      {% if shop.customer_accounts_enabled %}
+        {% if customer %}
+          <a href="{{ routes.account_url }}">Account</a>
+        {% else %}
+          <a href="{{ routes.account_login_url }}">Login</a>
+
+          {% if shop.customer_accounts_optional %}
+            <span>or</span>
+            <a href="{{ routes.account_register_url }}">Create an account</a>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    
+    - Provide a “Forgot your password" option (Cung cáp tùy chọn quên mật khẩu):
+      + Bạn có thể thêm form khôi phục mật khẩu với thẻ form liquid và tham số đi kèm. trong khối thẻ form, bạn càn bao gồm một thuộc tính sau: 'recover_customer_password'<input>
+        + type="email"
+        + name="email"
+      + VD:
+      {% form 'recover_customer_password' %}
+        {{ form.errors | default_errors }}
+
+        <div class="email">
+          <label for="email">Email</label>
+          <input type="email" name="email">
+        </div>
+
+        <div class="submit">
+          <input type="submit" value="Submit">
+        </div>
+      {% endform %}
+      + Nếu form khôi phục mật khảu được gửi thành công, khashc hàng sẽ nhận được email hướng dẫn cách dặt lại mật khẩu.
+    
+    - Offer guest checkout (Cung cấp tùy chọn thanh toán)
+      + Nếu tài khoản khách hàng là tùy chọn hoặc yêu cầu, thì khách hàng có thể đăng nhập vào tài khoản của họ ở bước đàu tiên của thah toán.
+      + Khi tài khoản khách hàng là tùy chọn, bạn có thể cho phép khashc hàng thanh toán với tư cách là khách, thay vì đăng nhập vào tài khoản. Bạn có thể làm điều này với thẻ form liquid và tham số đi kèm. trong khối thẻ biểu mẫu, bạn cần bao gồm một đàu vào. Ngoài ra, để đảm bảo biểu mẫu chỉ hiển thị khi đến trực tiếp từ trang thanh toán, bạn có thể sử dụng thuộc tính của đối tượng cửa hàng.'guest_login submitcheckout.guest_login 
+      +VD:
+      {% if shop.checkout.guest_login %}
+        {% form 'guest_login' %}
+          <div class="submit">
+            <input type="submit" value="Continue as guest">
+          </div>
+        {% endform %}
+      {% endif %}
+    
+    - Redirect customers on login (CHuyểm trang khi đăng nhập)
+      + Theo mặc dịnh, khi khách hàng đăng nhập, họ được chuyển đến trang tài khoản khách hàng. Bạn có thể thay đổi điều này bằng cách sử dụng tham số return_to của thẻ biểu mãu liquid 
+
+      +VD:
+      {% form 'customer_login', return_to: routes.all_products_collection_url %}
+        <!-- form content -->
+      {% endform %}
+
+  * customers/order (khách hàng/ đặt hàng)
+    + có nội dung là mẫu customers/order hiển thị trang đơn hàng của khách hàng. trang này hiển thị chi tiết về các đơn dặt hàng trước đây của khách hàng
+
+    - location (vị trí)
+      + mẫu customers/order năm trong thư mục templates > customers
+      + └── theme
+      ├── layout
+      ├── templates
+      |   └── customers
+      |     ├── order.json
+      |     ...
+      ...
+    
+    - content (Nội dung)
+      + bạn nên bao gồm đối tượng order trong mẫu của bạn hoặc một phần bên trong template. customers/account
+
+    - The order object (đổi tượng thanh toán) 
+      + Bạn có thể truy cập đối tượng đơn hàng để hiển thị chi tiết của đơn đặt hàng.
+
+  * customers/register (khách hàng / đăng ký )
+    + có nội dung là mẫu customers/register hiển thị trang đăng ký tài khoản khashc hàng, nơi lưu trữ biểu mẫu để tại tài khoản khách hàng 
+
+    - location (Vị trí)
+      + Mẫu customers/register nằm trong thư mục temlate > customers của theme
+      + └── theme
+      ├── layout
+      ├── templates
+      |   └── customers
+      |     ├── register.json
+      |     ...
+      ...
+
+    - content (Nội dung)
+      + bạn nên bao gồm biểu mẫu đăng ký khách hàng trong mãu khách hàng / đăng ký của mình hoặc 1 phần bên trong mẫu.
+    
+    - The customer register form (Mẫu đăng kí khách hàng)
+      + biểu mẫu đăng ký khách hàng có thể được thêm vào với thẻ biểu mẫu liquid và tham số "create_customer". trong khối thẻ biểu mẫu, bạn cần bao gồm nhưng thông tin sau:
+      + Input	        type	      name
+        First name	  text	      customer[first_name]
+        Last name	    text	      customer[last_name]
+        Email	        email	      customer[email]
+        Password	    password	  customer[password]
+      +VD: 
+      {% form 'create_customer' %}
+        {{ form.errors | default_errors }}
+
+        <div class="first-name">
+          <label for="first-name">First name</label>
+          <input type="text" name="customer[first_name]">
+        </div>
+
+        <div class="last-name">
+          <label for="last-name">Last name</label>
+          <input type="text" name="customer[last_name]">
+        </div>
+
+        <div class="email">
+          <label for="email">Email</label>
+          <input type="email" name="customer[email]">
+        </div>
+
+        <div class="password">
+          <label for="password">Password</label>
+          <input type="password" name="customer[password]">
+        </div>
+
+        <div class="submit">
+          <input type="submit" value="Create">
+        </div>
+      {% endform %}
+
+    - Usage (sử dụng)
+      + Khi làm việc với mẫu khách hàng / đăng ký. Bạn nên alfm quen với việc chuyển hướng khashc hàng về tạo tài khoản. 
+    
+    - Redirect customers on account creation (CHuyển hướng khách hàng về việc tạo tài khoản) 
+      + Theo mặc định, khi khách hàng tạo tài khoản, họ sẽ được chuyển đén trang chủ, Tuy nhiên, bạn có thể chỉ định một trang để hướng khashc hàng đến bằng cách sử dụng tham số return_to của thẻ biểu mẫu Liquid
+      +VD:
+      {% form 'create_customer', return_to: routes.all_products_collection_url %}
+        <!-- form content -->
+      {% endform %}
+
+  * customers/reset_password (Khách hàng / Lấy lại mật khẩu)
+    + Mẫu khách hàng / reset_password hiển thị trang đặt lại mật khẩu, lưu trữ mẫu để đặt lại mật khẩu cho tài khaorn khách hàng.
+
+    - location (Vị trí )
+      + mẫu customers/reset_password năm trong thư mục temlate > customers
+      + └── theme
+      ├── layout
+      ├── templates
+      |   └── customers
+      |     ├── reset_password.json
+      |     ...
+      ...
+    - Content (nội dung)
+      + Bạn nên bao gồm biểu mẫu đặt lại mật khẩu trong mẫu khách hàng/ tài khoản của mình haowjc 1 phần bên trong mẫu.
+    
+    - The password reset form (form đặt lại mật khẩu)
+      + Biểu mãu đặt lại mật khẩu có thể được thêm vào thẻ form liquid và tham số "reset_customer_password" đi kèm, trong khối biểu mẫu, bạn cần bao gồm những thông tin sau:
+        + Input	                    type	        name
+          Password	                password	    customer[password]
+          Password confirmation	    password	    customer[password_confirmation]
+      
+      +VD:
+      {% form 'reset_customer_password' %}
+        {{ form.errors | default_errors }}
+
+        <div class="password">
+          <label for="password">Password</label>
+          <input type="password" name="customer[password]">
+        </div>
+
+        <div class="password_confirm">
+          <label for="password_confirmation">Password confirmation</label>
+          <input type="password" name="customer[password_confirmation]">
+        </div>
+
+        <div class="submit">
+          <input type="submit" value="Reset password">
+        </div>
+      {% endform %}
+
+    - Usage (sử dụng)
+      + Khi làm việc với mẫu khách hàng / tài khoản, bạn nên làm quen với việc xem trc mẫu
+    
+    - Preview the template (Xem trước mẫu)
+      + Để xem trước mẫu, hãy thực hiện các bước sau:customers/reset_password
+        + Điền vào biểu mẫu khôi phục mật khẩu trên trang đăng nhập.
+        + Kiểm tra email của bạn để tìm email "Đặt lại mật khẩu tài khoản khách hàng".
+        + Nhấp vào liên kết trong email. Thao tác này sẽ đưa bạn đến trang đặt lại mật khẩu khách hàng.
+
+  * gift_card.liquid (thẻ quà tặng)
+    + Mẫu hiển thị trang thẻ quà tặng, hiển thị thẻ gift_card.liquid gift_card được cấp cho khách hàng khi mua hàng. 
+    + Không giống như các trang khác trong cửa hàng, các trang thẻ quà tặng được lưu trữ trên miềm. URL thẻ quà tặng chứa các số nhận dạng duy nhất cho cửa hàng và thẻ quà tặng: checkout.shopify.com
+    + "https://checkout.shopify.com/gift_cards/[store_id]/[gift_card_token]"
+
+    - Location (vị trí)
+      + Mẫu năm trong thư mục template của chủ đề: gift_card template
+      + └── theme
+      ├── layout
+      ├── templates
+      |   ...
+      |   ├── gift_card.liquid
+      |   ...
+      ...
+
+    - Content (Nội dung)
+      + Mẫu này ko thể là một mẫu JSON 
+      + Bạn có thể bao gồm các mục sau trong mẫu quà tặng của mình haowjc một phần bên trong mẫu:
+        + The gift_card object
+      + Bạn cx có thể thêm mã QR haowjc ví Apple
+    
+    - The gift_card object (Đối tượng quà tặng giỏ hàng)
+      + Bạn có thể truy cập đối tượng gift_card liquid để hiển thị chi tiết thẻ quà tặng.
+    
+    - Usage (sử dụng)
+      + Khi làm việc với mẫu bạn nên làm quen với nhưng thứ sau: gift_card
+        + Thêm liên kết mã QR vào cửa hàng
+        + Bao gồm các thẻ Apple Wallet vào mẫu
+        + Chỉ hiển thị chi tiết thẻ quà tặng
+    
+    - QR code:
+      + Bạn có thể bao gồm liên kết mã QR đến cửa hàng bằng cách thêm JS tạo mã QR. Thêm các doạn trính sau đây trong và các phần tử của trang, tương ứng <head> <body>
+      + Include in <head>
+        + {{ 'vendor/qrcode.js' | shopify_asset_url | script_tag }}
+      + Include in <body>
+        + <div id="qr-code"></div>
+          <script>
+            new QRCode(document.getElementById('qr-code'), {
+              text: '{{ gift_card.qr_identifier }}',
+              width: 120,
+              height: 120
+            });
+          </script>
+
+    - Apple Wallet passes (Thẻ Appple wallet)
+      + Bạn có thể bao gồm các thẻ Apple wallet bằng cách thêm đoạn mã sau vào phần tử của trang: <body>
+      + {% if gift_card.pass_url %}
+          <a href="{{ gift_card.pass_url }}" >
+            <img id="apple-wallet-badge"
+              src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}"
+              width="120"
+              height="40"
+              alt="Add To Apple Wallet">
+            </a>
+        {% endif %}
+
+    - Display only the gift card details (Chỉ hiển thị chi tiết thẻ quà tặng)
+      + Nếu bạn ko muốn bao gồm các yếu tố chủ đề, như đàu trang và chân trang, bạn có thể chọn hiển thị mẫu ko có bố cục hoặc bố cục tùy chỉnh, sử dụng bố cục: Liquid object gift_card.liquid
+      + {% layout none %}
+      <!-- template content -->
+    
+    - Preview the templateAnchor (Xem trước mẫu)
+      + Bạn có thể xem trc gioa diện của thẻ quà tặng bằng cách điều huwosng đén mẫu thẻ quà tặng từ trình chỉnh sửa chủ đề
+        + từ trình chỉnh sửa chủ đề, hãy mở menu thả xuống ở đầu trang 
+        + Bên dưới mẫu, bấm khác. Sau đó, nhấp vào thẻ quà tặng
+
+  * Index (Trang chủ)
+    + Mẫu hiển thị trang chủ của cửa hàng, năm ở URL gốc (). Trang chủ thường đóng vai trò là gây ấn tượng đầu tiên của khách hàng về cửa hàng của ng bán, vì vậy mẫu phải bao gồm các tuy chọn linh hoạt đẻ ng bán kể câu chuyện của họ. Index/ index
+
+    - Location (Vị trí)
+      + mẫu index năm tỏng thư mục template của chủ đề 
+      + └── theme
+      ├── layout
+      ├── templates
+      |   ...
+      |   ├── index.json
+      |   ...
+      ...
+    
+    - Usage (sử dụng)
+      + khi làm việc với mẫu chỉ mục trang chủ, bạn nên tự làm quen với sự khashc biệt giwuax các mẫu index json và liquid.
+    
+    - JSON và Liquid 
+      + Cả mẫu index json và liquid đều cho phép người bán them sửa xóa các mục bằng trình chỉnh sửa chủ đề. Mặc dù mẫu liquid index có chức năng này, nhưng trong hầu hết các trường hợp, bạn nên sử dụng mẫu json (index.json). Làm mẫu index của mình. các mẫu json có nhưng ưu ddierm sau so với các mẫu liquid:
+        + Mẫu JSON giúp người bán linh hoạt hơn trong việc thêm, xóa và sắp xếp lại các mục, bao gồm cả các mục ứng dụng.
+        + Các mẫu JSON lưu trữ dữ liệu của riêng chúng, giúp giảm thiểu lượng dữ liệu trong settings_data.json và cải thiện hiệu suất của trình chỉnh sửa chủ đề.
+
+  * List-collections (Danh sách bộ sưu tập)
+    + Mẫu list collections hiển thị trang danh sách bộ sưu tập, liệt kê tất cả các bộ sưu tập của cửa hàng. trang này được đặt tại URL "/collection" của cửa hàng.
+
+    - Location (Vị trí)
+      + mẫu list collections nằm trong thư mục temlate của chủ đề
+      + └── theme
+      ├── layout
+      ├── templates
+      |   ...
+      |   ├── list-collections.json
+      |   ...
+      ...
+
+    - Content (nội dung)
+      + bạn có thể bao gồm những phần sau dây trong mẫu danh sách bộ sưu tập haowjc một phần bên trong mẫu: 
+        + collections object
+
+    - The collections object (Đối tượng bộ sưu tập)
+      + bạn có thể truy cập đối tượng bộ sưu tập liquid để hiển thị các bộ sưu tập của cửa hàng.
+
+    - Usage (sử dụng)
+      + khi làm việc với mẫu, bạn nên làm quen với những thứ sau: collections
+        + Thay đổi thứ tự của các bộ sưu tập
+        + Đặt hình nahr dự phòng cho hình ảnh bộ sưu tập
+    
+    - Change the order of collections (Thay đổi thứ tự của các bộ sưu tập)
+      + Thông thường, mẫu này bao gồm vòn lập sau qua các bộ sưu tập để xuất hiện ra màn hình, xuất ra các bộ sưu tập theo thứ tự bảng chữ cái:
+      +VD:
+      {% for collection in collections %}
+        <!-- collection info -->
+      {% endfor %}
+      + Nếu bạn muốn thay đổi thứ tự, thì bạn có thể xây dựng một menu để lưu trữ các bộ sưu tập theo thứ tự mong muốn của bạn và lập qua các mục menu. Nếu bạn sử dụng phương thức này, thì bạn nên xấy dựng một cài dặt để cho phép nguwif bán chọn menu được sử dụng. bạn có thể truy cập menu thông qua đối tượng Linklisst object. lọc các menu cho các bộ sưu tập dựa trên link.type và truy cập thông tin bộ sưu tập thông qua link.object
+      +VD: 
+      {% for link in settings.collection_list_menu %}
+        {% if link.type == 'collection_link' %}
+          {% assign collection = link.object %}
+
+          <!-- collection info -->
+        {% endif %}
+      {% endfor %}
+    
+    - Collection image fallback (Bộ sưu tập hình ảnh dự phòng)
+      + Bạn nên có dự phòng cho trường hợp bộ sưu tập không có hình nahr bộ sưu tập. VD: bạn có thể sử dụng hình ảnh của sản phảm đàu tiền trong bộ sưu tập
+      + đoạn mã:
+      {% if collection.image %}
+        {{ collection.image | image_url: width: 450, height: 450 | image_tag: collection.image.alt }}
+      {% else %}
+        {% assign alt = collection.title | escape %}
+        {{ collection.products.first.image | image_url: width: 450, height: 450 | image_tag: alt }}
+      {% endif %}
+
+  * page (Trang)
+    + mẫu hiển thị trang trang của cửa hàng, nhwu về About hoặc contact us
+
+    - Location (Vị trí)
+      + Mẫu Page năm tỏng thư mục templates của chủ đề
+      + └── theme
+      ├── layout
+      ├── templates
+      |   ...
+      |   ├── page.json
+      |   ...
+      ...
+
+    - content (Nội dung)
+      + Bạn có thể bao gồm những điều sau đây trong mẫu trang của mình hoặc một phần bên tỏng mãu:
+        + The page object 
+    
+    - The page object (đối tượng trang)
+      + Bạn có thể truy cập đối tượng trang liquid để hiển thị chi tiết trang.
+
+  * password (Mật khẩu)
+    + mẫu trang mật khẩu hiển thị trang mật khẩu. Là trang được hiển thị khi áp dụng tính năng bảo vệ bằng mật khẩu cho cửa hàng. trang này bao gồm thông báo mà người bán có thể chỉnh sửa và biểu mẫu mật khẩu để khashc ahfng có quyền truy cập vào cửa hàng.
+
+    - Location (Vị trí)
+      + mẫu mật khẩu năm tỏng thư mục template của theme
+      + └── theme
+      ├── layout
+      ├── templates
+      |   ...
+      |   ├── password.json
+      |   ...
+      ...
+    
+    - Content (Nội dung)
+      + Bạn có thê bao gồm những thứ sau đây trong mẫu mật khảu của bạn haowjc một phần bên trong mẫu:
+        + Thông báo mật khẩu 
+        + Biểu mẫu mật khẩu
+        + Biểu mẫu đăng ký email
+    
+    - The password message (Thông báo mật khẩu)
+      + Khi bảo vệ mật khẩu được bật trên cửa hàng, cũng có tùy chọn bao gồm tin nhắn. Thông báo này có thể được hiển thị bằng cách sử dụng thuộc tính password_message của đối tượng của hàng 
+      +VD:  {% unless shop.password_message == blank %}
+              {{ shop.password_message }}
+            {% endunless %}
+    
+    - The password form (Biểu mẫu mật khẩu)
+      + BIểu mẫu mật khẩu có thể được them vào buổi mẫu kiquid va ftham só 'storefront_password", đi kèm. Trong khối thẻ biểu mẫu, bạn cần bao gồm một thẻ <input> với các thuộc tính sau:
+        + type="password"
+        = name="password"
+      +VD:
+      {% form 'storefront_password' %}
+        {{ form.errors | default_errors }}
+
+        <div class="password">
+          <label for="password">Password</label>
+          <input type="password" name="password">
+        </div>
+
+        <div class="submit">
+          <input type="submit" value="Sign in">
+        </div>
+      {% endform %}
+    
+    - The email sign-up form (Biểu mẫu dăng kí email)
+      + Bạn có thể bao gồm biểu mẫu đăng ký email, để ghi lại email của khashc hàng, với thẻ biểu mẫu liquid và tham số 'customer' đi kèm, trong khối thẻ bieur mẫu, bạn ccafn bao gồm nhưng thông tin sau:
+      + Input	    type	    name              value
+        Tags	    hidden	  contact[tags]	    prospect, password page
+        Email	    email	    contact[email]	  -
+      +VD:
+      {% form 'customer' %}
+        {{ form.errors | default_errors }}
+
+        <div class="tags">
+          <input type="hidden" name="contact[tags]">
+        </div>
+
+        <div class="email">
+          <label for="email">Email</label>
+          <input type="email" name="contact[email]">
+        </div>
+
+        <div class="submit">
+          <input type="submit" value="Sign in">
+        </div>
+      {% endform %}
+
+  * Product (sản phẩm)
+    + mẫu product hiển thị trang sản phẩm, chứa phuwong tiện và nội dung của sản phẩm, cũng như biểu mẫu để khách hàng chọn sản phẩm và có thể thêm sản phẩm vào giỏ hàng.
+
+    - Location (Vị trí)
+      + mẫu product được năm trong thư mục tempalate 
+      + └── theme
+      ├── layout
+      ├── templates
+      |   ...
+      |   ├── product.json
+      |     ...
+      ...
+
+    - Content (Nội dung)
+      + Bạn nên bao gồm nhwuxng điều sau đây trong mẫu sản phẩm của bạn haowjc một phần bên trong mẫu:
+        + The product object (Đối tượng sản phẩm)
+        + the product form, with  the following components (Mãu sả phẩm và các thành phần sau):
+          + A variant selector (Bộ chọn sản phảm)
+          + A quantity input (nhập số lượng)
+          + Dynamic checkout buttons (các nút thành toán động)
+          + Input elements for line item properties (các phàn tử đàu vào cho các thuộc tính mục hàng)
+
+    - The product object (Đối tượng sản phẩm)
+      + bạn có thể truy cập đối tượng sản phẩm liquid đê rhieenrthij chi tiết sản phẩm
+    
+    - the product form (biểu mẫu sản phẩm)
+      + Biểu mẫu sản phẩm là phương pháp chính để khách hàng thêm sản phẩm vào giỏ hàng. Bạn có thể bao gồm biểu mẫu sản phẩm với thẻ biểu mẫu liquid và tham số đi kèm: "product"
+      +VD:
+      {% form 'product' %}
+        <!-- form content -->
+
+        <input type="submit" value="Add to cart">
+      {% endform %}
+      + Inside the form, you need the following:(Bên trong biểu mẫu bạn cần sau:)
+        + The variant selector (Bộ chọn mẫu mã)
+        + The quantity input (nhập số lượng)
+        + Dynamic checkout buttons (Các nút thanh toán)
+
+    - The variant selector (Bộ Chọn mẫu mã)
+      + Bộ chọn biến thể là một phàn tử đầu vào có thuộc tính là . Giá trị của biến thể phản ánh ID biến thể của biến thể sẽ đc ược thêm vào cart.name='id'
+      + Thông thường, bộ chọn mẫu mã là một phần tử có s được điền hàng 1 vòng lập qua tất cả các biến thể của sản phẩm. Bạn cũng có thể chọn một biến thể theo mặc định, dựa trên liên kết mẫu mã haowjc tình trạng còn hàng, bằng cách sử dụng thuộc tính của đối tượng sản phẩm: <select> <option> selected_or_first_available_variant
+      +VD:
+      <select name="id">
+        {% for variant in product.variants %}
+          <option value="{{ variant.id }}"
+            {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %}
+          >
+            {{ variant.title }} - {{ variant.price | money }}
+          </option>
+        {% endfor %}
+      </select>
+
+    - The quantity input (Nhập số lượng)
+      + Bạn nên bao gồm một đàu vào số lượng để cho phép khách hàng chọn số lượng mà họ đang thêm vào giỏ ahfng. Đầu vào này càn phải có một thược tính và giá trị phải là một số nguyên lốn hơn 1: name="quantity"
+      +VD: <input type="text" name="quantity" min="1" value="1">
+    
+    - Dynamic checkout buttons (nút thanh toán đọng)
+      + Bạn nênbao gồm nút thanh toán động để cho phép khách hàng nhanh chóng mua sản phẩm họ đang xem. Chúng có thể dduwwojc thêm vào với bộ lọc html liquid: payment_button
+      +VD: 
+      {% form 'product' %}
+        <!-- form content -->
+
+        <input type="submit" value="Add to cart">
+        {{ form | payment_button }}
+      {% endform %}
+
+    - Line item properties (Thuộc tính mục dòng)
+      + Bạn có thê rcung cấp cho khách hàng tùy chọn bao gồm  thông tin bổ sung cho maaix mã được thêm vào giỏ hàng bằng cách sử dụng thuộc tính mục hàng để cho phép khách hàng tùy chirh đơn dặt hàng hoặc cung câp thông tin bố sung. 
+      + VD: Bạn có thể chụp chữ lồng haowjc khắc văn bán hoặc cho phép khách hàng tải tệp lên. Các thuộc tính này được thu thập thông qua các yếu tố đầu vào với thuộc tính là , trong đó là tên của thuộc tính tùy chỉnh của bạn. Bất kỳ đầu vào thuộc tính nào cũng cần được đưa vào bên trong biểu mẫu sản phẩm:name='properties[property-name]'property-name
+      +VD đoạn mã:
+      {% form 'product' %}
+        <!-- form content -->
+
+        <input type="text" name="properties[Monogram]">
+        <input type="submit" value="Add to cart">
+      {% endform %}
+
+    - Usage (sử dụng)
+      + Khi làm việc với mãu bạn nên làm quen với những điều sau:
+        + The Cart AJAX API (API ajax giỏ hàng)
+        + Showing product recommendations (hiển thị dề xuát sản phẩm)
+    
+    - The cart ajax api
+      + Bạn có thể sử dụng API giỏ hàng, một phần của API AJAX, để cho phép khách hàng thêm mẫu mã vào giỏ hàng mà không cần chuyển hướng họ đến trang giỏ hàng sau đó.
+    
+    - Showing product recommendations:
+      + Bạn có thể sử dụng API Đề xuất sản phẩm, một phần của API AJAX, để bán thêm cho khách hàng trên các sản phẩm liên quan. Để tìm hiểu thêm về cách sử dụng API này, tham khảo Hiển thị đề xuất sản phẩm.
+
+  * robots.txt.liquid
+    + Mẫu hiển thị tệp được lưu trữ tại url robots.txt.liquid robots.txt /robots.txt
+    + Tệp này cho các công cụ tìm kiếm biết những trang nào có thể haowjc không thể thu thập dữ liệu trên một trang web. Nó chứa các nhóm quy tắc để làm như vậy và mỗi nhóm có ba thành phần chính: robots.txt
+      + Tác nhân người dùng, lưu ý đén việc thu thập dữ liệu mà nhóm các quy tắc áp dụng. VD: adsbot-google 
+      + Bản thân các quy tắc, lưu ý các URL cụ thể mà trình thu thập thông tin có thể hoặc không thể truy cập.
+      + URL SITEMAP tùy chọn
+    + Shopify tạo một tệp theo mặc định, phụ hợp vói hầu hết cửa hàng, vì vậy mẫu này không dược bao gồm trong bất kỳ chủ đề nào theo mặc định. robots.txt
+
+    - Location (Vị trí)
+      + Bản mãu này nằm trong thư mục temlate của chủ đề: temlate > robots.txt
+      + └── theme
+      ├── layout
+      ├── templates
+      |   ...
+      |   ├── robots.txt.liquid
+      |   ...
+      ...
+      + Nếu chủ dề của bạn chưa chứa mãu, bạn có thể thêm mẫu đó bằng các bước sau: robots.txt.liquid
+      
+      + Trên Desktop:
+        1. từ trang quản trị viên shopify của bạn hay đến online store tìm đến mục Theme 
+        2. tìm chủ đề bạn muốn chỉnh sửa sau đó nhấp vào Actions rồi bấm vào Edit code 
+        3. Ở thanh bên trái kéo xuống chỗ có chứa thư mục templates, rồi sau đó bấm vào Add a new template 
+        4. Trong tạo mẫu mới cho menu thả xuống và chọn robots.txt
+        5. Và bấm vào nút Create temlate 
+      
+      + Trên điện thoại iPhone và Android 
+        1. Truy cập vào app shopify tìm đến tap store
+        2. trong mục sales channels rồi bấm vào online store 
+        3. nhấp vào manage theme.
+        4. Tìm chủ đề bạn muốn chỉnh sửa sau đó nhấp vào Actions rồi bấm vào Edit code 
+        5. Ở thanh bên trái kéo xuống chỗ có chứa thư mục templates, rồi sau đó bấm vào Add a new template 
+        6. Trong tạo mẫu mới cho menu thả xuống và chọn robots.txt
+        7. Và bấm vào nút Create temlate
+
+    - content (nội dung)
+      + Mẫu này ko thể là mẫu Json. Nó phải là mãu robots.txt.liquid 
+      + Casc quy tắc  được bao gồm trong tệp mặc định được nhân đôi thông qua đối tượng robots liquid. mà mẫu sử dụng đề xuất ra các quy tắc. robots.txtrobots.txt.liquid 
+
+      + VD đoạn mã: templates/robots.txt.liquid
+      {% for group in robots.default_groups %}
+        {{- group.user_agent -}}
+
+        {% for rule in group.rules %}
+          {{- rule -}}
+        {% endfor %}
+
+        {%- if group.sitemap != blank -%}
+          {{ group.sitemap }}
+        {%- endif -%}
+      {% endfor %}
+
+    - Usage (sử dụng)
+      + Nếu bạn muốn tùy chỉnh mẫu, thì bạn cần thêm nó bằng các bước sau:robots.txt.liquid
+        + Trong trình chỉnh sửa mã cho chủ đề bạn muốn chỉnh sửa, hãy mở thư mục Mẫu.
+        + Nhấp vào Thêm mẫu mới.
+        + Chọn trong menu thả xuống Tạo mẫu mới cho.robots.txt
+        + Nhấp vào Tạo mẫu.
+      + Để tìm hiểu về cách tùy chỉnh mẫu này, hãy tham khảo Tùy chỉnh rô bốt.txt.
+    
+  * search 
+    + Mẫu tìm kiếm hiển thị trang tìm kiếm, hiển thị kết quả tìm kiếm cửa hàng.
+
+    - Location (Vị trí)
+      + mẫu search năm tỏng thư mục templates của chủ đề
+      + └── theme
+      ├── layout
+      ├── templates
+      |   ...
+      |   ├── search.json
+      |     ...
+      ...
+
+    - Content (Nội dung)
+      + Bạn nên bao gồm các mục sau trong mẫu tìm kiếm của bạn hoặc một phần bên trong mẫu 
+        + The search object [Đối tượng tìm kiếm] 
+        + The search form [Hình thức tìm kiếm] 
+        + The search results [Kết quả tìm kiếm] 
+      
+    - the search object:
+      + Bạn có thể tuy cập đối tượng tìm kiếm liquid đê rhieenr thị các chi tiết tìm kiếm 
+    
+    - THe search form: 
+      + Đê truy cập vào trang tìm kiếm, khách hàng cần thực hiện tìm kiếm thông qua biểu mẫu tìm kiếm. Bạn có thể bao gồm một biểu mẫu tìm kiếm tỏng chủ đề của bạn với <form> phần tử có thuộc tính action="{{ routes.search_url }}". Bên trong biểu mẫu, bạn cần một đàu vào với các thuộc tính sau:
+        + type="text"
+        + name='q'
+      + Bạn cũng nên đặt giá trị của input để phản ánh giá trị của thuộc tính cụm từ của đối tượng tìm kiếm để cụm từ tìm kiếm của khách hàng được giữ nguyên.
+      + Đoạn mã demo:
+      <form action="{{ routes.search_url }}">
+        <input type="text"
+          placeholder="Search"
+          name="q"
+          value="{{ search.terms | escape }}"
+      >
+        <input type="submit" value="Search">
+      </form>
+
+    - the search results:
+      + Bạn có thể hiển thị kết quả tìm kiếm bằng cách lập qua các giá trị của thuộc tính kết quả của ododis tượng tìm kiếm.
+      + Đoạn mã demo:
+      {% for item in search.results %}
+        <!-- item details -->
+      {% endfor %}
+
+    - Usage (sử dụng)
+      + Khi làm việc với mẫu tìm kiếm, bạn nên làm quen với việc dánh dáu các cụm từ tìm kiếm.
+    
+    - Highlight search terms
+      + Nếu bạn xuất bất kỳ nội dung nào được liên kết với kết quả tìm kiếm của mình, bạn có thể đánh dấu các cụm từ tìm kiếm trong nội dung đó bằng cách sử dụng bộ lọc Liquid highlight:
+      + đoạn mã demo: 
+      {% for item in search.results %}
+        <!-- item details -->
+
+        {{ item.content | highlight: search.terms }}
+      {% endfor %}
+    
+  * 404 
+    + mẫu 404 hiển thị nội dung trang được hiển thị cho khách hàng nếu họ nhập URL không hợp lệ cho cửa hàng
+
+    - Location (Vị trí)
+      + Mẫu 404 năm tỏng thư mục tempalate của chủ đề
+      + └── theme
+      ├── layout
+      ├── templates
+      |   ...
+      |   ├── 404.json
+      |   ...
+      ...
+
+    - Content (Nội dung)
+      + Không có đối tượng được đề xuất cho mẫu 404. Tuy nhiên, mẫu phải làm cho khách hàng rõ ràng rằng không thể tìm thấy trang họ đang tìm kiếm.
+      + Bạn nên cung cấp các tùy chọn rõ ràng về cách tiến hành. Ví dụ: bạn có thể thêm liên kết đến các trang phổ biến, thanh tìm kiếm để giúp khách hàng tìm thấy những gì họ đang tìm kiếm hoặc liên kết chuyển hướng khách hàng đến trang chủ của bạn hoặc bộ sưu tập để tiếp tục mua sắm:
+      + <p>
+          404
+        </p>
+        <h1 class="title">
+          Page not found
+        </h1>
+        <a href="{{ routes.all_products_collection_url }}" class="button">
+          Continue shopping
+        </a>
+
+** Config
+  * Overview
+    - Config:
+      + Là fodel cấu hình tệp xác định cài đặt trong khu vực cài đặt chủ đề của trình chỉnh sửa chủ đề, cũng như lưu trữ các giá trị của cửa hàng.
+      + Cài đặt chủ đề là một nơi để lưu trữ các cài dặt chung như kiểu chữ và tùy chọn màu. cài đặt chủ đề có thể được truy cập thông qua đối tượng cài đặt.
+    
+    - Location (Vị trí)
+      + tệp cấu hình (config) được đặt trong thư mục cáu hình của chủ đề:
+      └── theme
+          ...
+          ├── config
+          |   ├── settings_data.json
+          |   └── settings_schema.json
+          └── locales
+
+    - Subtypes
+      + Có hai tệp cấu hình, mỗi tệp có schema và content (Nội dung) riêng:
+        - type: settings_schema.Json
+          description (Mô tả): kiểm soát tố chức và nội dung của khu vực cài đặt chủ đề của trình chỉnh sửa chủ đề.
+        
+        - type: settings_data.json
+          description (Mô tả): Chứa các giá trị đã lưu tuef cài đặt trong settings_schema.Json.
+    
+    - Usage (sử dụng)
+      + Khi làm việc với tệp cấu hình, bạn nên làm quen với những điều sau:
+        + Setting types (Loại cài đặt)
+        + Accessing settings (Truy cập cài đặt )
+        + Theme metadata (siêu dữ liệu chủ đề)
+
+    - Setting types:
+      + Có 2 laoji cài đặt:
+        - Input settings: Cài đặt có thể chứa giá trị và người bán có thể tự cấu hình
+
+        - Sidebar settings: Cài đặt khoogn thể giwux gái trị và không cấu hình bới người bán. Chúng có thể sử dụng thông tin để cung cấp chi tiết và rõ ràng cho cài đặt input của bạn.
+
+    - Access settings;
+      + Cài đặt chủ đề có thể truy cập thông qua đối tượng cài đặt. Để tìm hiểu thêm về cú pháp và những điều cần cân nhắc, hãy tham khảo cài dặt truy cập.
+    
+    - Theme metadata:
+      + Bạn có thể thêm siêu dữ liệu chủ đề vào tác vụ menu của chủ đề của trình chỉnh sửa chủ đề. Thông tin này bao gồm thông tin như tên và phiên bản chủ đề, nơi tìm tài liệu chủ đề và chi tiết liên hệ với nhà phát triển chủ đề. Để tìm hiểu cách đưa thông tin này vào chủ đề của bạn, hãy tham khảo thêm siêu dữ liệu chủ đề.
+
+  * settings_schema.Json
+    - settings_schema.json
+      + Tệp settings_schema.json kiểm soát cấu tạo à nội dung của khu vực cài đặt chủ đề của trình chỉnh sửa chủ đề. Tất cả các lựa chọn cài đặt trông trình chỉnh sửa chủ đề được lưu trong setiing_data.json.
+    
+    - Location (Vị trí)
+      + tệp settings_schema.json năm trong thư mục config của chủ đề.
+      + └── theme
+            ...
+            ├── config
+                ├── settings_data.json
+                └── settings_schema.json
+            └── locales
+
+    - schema 
+      + tệp settings_schema.json là một mảng các đối tượng đại diện cho các danh mục cài đặt. mỗi đối tượng cần phải có thuộc tính sau:
+        + Attribute  |  Description
+          name	     |  The name of the category of settings
+          settings	 |  An array of associated settings   
+      + Tệp settings_schema.json phải tuân theo định dạng cơ bản sau:
+      + [
+          {
+            "name": "Category",
+            "settings": [
+              ...
+            ]
+          },
+          ...
+        ]
+      + Tệp settings_schema.json là tệp JSON, vì vậy tất cả nội dung phải là JSON hợp lệ. Ngoài ra, hãy đảm bảo bạn tuân theo cú pháp thích hợp cho cài đặt mong muốn của mình.
+    
+    - Usage (sử dụng)
+      + Khi làm việc với tệp settings_schema.json bạn nên làm theo những điều sau:
+        + setting types (loại cài đặt)
+        + Accessing settings ()
+        + adding theme metadata ()
+
+    - Setting types:
+      + Có 2 loại cài đặt:
+        - Input settings: Cài đặt có thể chứa giá trị và người bán có thể tự cấu hình
+
+        - Sidebar settings: Cài đặt khoogn thể giwux gái trị và không cấu hình bới người bán. Chúng có thể sử dụng thông tin để cung cấp chi tiết và rõ ràng cho cài đặt input của bạn.
+
+    - Access settings;
+      + Cài đặt chủ đề có thể truy cập thông qua đối tượng cài đặt. Để tìm hiểu thêm về cú pháp và những điều cần cân nhắc, hãy tham khảo cài dặt truy cập.
+    
+    - Add theme metadata
+      + Là tác giả chủ đề, bạn có thể thêm siêu dữ liệu bổ sung cho chủ đề của mình trong tác vụ menu chủ đề của trình biên tập chủ đề. Menu này xuất hiện ở bên trái của thanh trên cùng của trình chỉnh sửa chủ đề.
+
+      + Để thêm siêu dữ liệu này, bạn có thể bao gồm một đối tượng theme_info trong tệp settings_schema.json. Đối tượng này phải bao gồm các thuộc tính sau:
+        + Attribute: name
+          Description: The value of this attribute must be theme_info (Giá trị của thuộc tính phải là theme_info)
+
+        + Attribute:: theme_name
+          Description: 	The name of the theme.(Tên của chủ đề)
+
+        + Attribute: theme_author
+          Description: The author of the theme.(Tác giả của chủ đề)
+
+        + Attribute: theme_version
+          Description: The version number of the theme. (Số phiên bản của chủ đề)
+
+        + Attribute: theme_documentation_url
+          Description: A URL where merchants can find documentation for the theme. (URL nơi người bán có thể tìm thấy tài liệu cho chủ đề)
+        
+        + Attribute: theme_support_email
+          Description: An email address that merchants can contact for support for the theme.(Địa chỉ email mà người bán có thể liên hệ để được hỗ trợ về chủ đề này.)
+
+        + Attribute: theme_support_url
+          Description: A URL where merchants can find support for the theme.(URL nơi người bán có thể tìm thấy hỗ trợ cho chủ đề)
+      
+      +VD đoạn mã:
+      [
+        {
+          "name": "theme_info",
+          "theme_name": "Dawn",
+          "theme_author": "Shopify",
+          "theme_version": "1.0.0",
+          "theme_documentation_url": "https:\/\/help.shopify.com\/manual\/online-store\/themes\/os20\/themes-by-shopify\/dawn",
+          "theme_support_url": "https:\/\/support.shopify.com\/",
+        },
+        ...
+      ]
+
+  * settings_data.Json
+    - settings_data.json
+      + Tệp settings_data.json chứa các giá trị cài đặt cho chủ đề dựa trên cài dặt có trong settings_schema.Json.
+      + VD: Bạn có thể sử dụng cài đặt chủ đề sau để cho phép người bán chọn màu cho nên trang.
+      +VD đoạn mã: 
+        {
+          "name": "Colors",
+          "settings": [
+            {
+              "type": "color",
+              "id": "color_page_bg",
+              "label": "Page background",
+              "default": "#FFFFFF"
+            }
+          ]
+        }
+      + Thêm một mục cho color_page_bg trong settings_data.json:
+        + đoạn mã demo:
+          ...
+          "color_page_bg": "#FFFFFF"
+          ...
+      + Bất cứ lúc nào giá trị của color_page_bg được thay đổi trong trình chỉnh sửa chủ đề, Settings_data.json được cập nhật với giá trị mới.
+    
+    - Location (Vị trí)
+      + tệp settings_data.json năm tỏng thư mục config của chủ đề.
+      + └── theme
+            ...
+            ├── config
+                ├── settings_data.json
+                └── settings_schema.json
+            └── locales
+    
+    - schema
+      + Tệp settings_data,json có hai đối tượng cha:
+        + Object: current	
+          Description: Contains all of the setting values that are currently saved in the theme editor.(Chứa tất cả các giá trị cài đặt hiện đang được lưu trong trình chỉnh sửa chủ đề.)
+
+        + Object:	presets 
+          Description: Contains an object for each theme style. Each object is in the same format as current.(Chứa một đối tượng cho mỗi kiểu chủ đề. Mỗi đối tượng có cùng định dạng với hiện tại.)
+      + Đoạn m demo:
+      {
+        "current": {
+          "color_page_bg": "#FFFFFF",
+          ...
+        },
+        "presets": {
+          "preset-name": {
+            "color_page_bg": "#000000",
+            ...
+          }
+        }
+      }
+
+    - Usage (sử dụng)
+      + khi làm việc với tệp settings_data.json, bạn nên làm quen với các kiểu chủ đề:
+        - Theme styles:
+          + Kiểu chủ đề là tập hợp các giá trị mặc định cài đặt chủ đề cho phpes người bán dễ dàng thay đổi giao diện chung của chủ đề thông qua trình chỉnh sửa chủ đề khi bắt đầu.
+          + Chọn mọt kiểu chủ đề cập nhật đối tượng hiện tại để sử dụng các giá trị kiểu chủ đề liên quan. Tuy nhiên, chỉ các giá trị từ cài đặt trình bày được cập nhật.
+        
+        - Presentational settings (Cài đặt trình bày)
+          + Cài đặt trình bày là cài đặt có liên quan đến khía cạnh trực quan của chủ đề. VD về cài đặt trình abyf bao gồm màu sắc và phông chữ được áp dụng cho văn bản hoặc phần tử cụ thể có hiển thị hay không.
+          + Các loại đầu vào sau đây là cài đặt trình bày. Các giá trị cho các cài đặt này được ghi đè khi chuyển đổi kiểu chủ đề.
+          + checkbox, color, color_background, font_picker, number, radio, range, select
+                
+** Locales 
+  * Overview
+    - Locales 
+      + Tệp Locales là các tệp JSON chứa một tập hợp các bản dịch các chuổi văn bản được sử dụng trong toàn bộ trình chỉnh sửa chủ đề và chủ đề.
+      + Ngoài việc cung cấp cho người bán một nơi duy nhất để dễ dàng chỉnh sửa các từ và cụm từ được lập đi lập lại trong suốt chủ đề, các tệp locales cho phép bạn dịch nội dung cửa hàng và cài đặt trình chỉnh sửa chủ đề, sang nhiều ngôn ngữ cho các người bán và khách hàng quốc tế.
+                
+    - Location (Vị trí)
+      + tệp locale năm tỏng thư mục locales của chủ dề
+      + └── theme
+        ...
+        └── locales
+
+    - Subtypes:
+      + Có 2 loại tệp locale:
+        - type: Storefront
+          desc: Các tệp Locale StoreFront có phần mở rộng tệp .JSON và các bản dịch kiểm soát cho nội dung cửa hàng. Những bản dịch này có thể được chỉnh sửa bởi người bán thông qua trình chỉnh sửa ngôn ngữ Shopify.       
+        - type: Schema
+          desc: Các tệp Locale Schema có phần mở rộng tệp .schema.json và các bản dịch điều khiển cho cài đặt trình chỉnh sửa chủ đề.
+    
+    - Schema
+      + Tệp locale cần tuân theo một cấu trúc đặt tên cụ thể. Họ cũng tuân theo một cấu trúc tổ chức cơ bản:
+        + Category: Danh mục cấp cao nhất của bản dịch của bạn.
+        + Group: Nhóm các bản dịch cấp hai trong một danh mục.
+        + Description: Cấp độ thứ ba, đại diện cho các bản dịch riêng lẻ.
+
+** SECTIONS
+  * Overview
+    + Các section là các file liquid cho phép bạn tạo các mô-dun nội dung có thể tái sử dụng mà người bán có thể tùy chỉnh. Chúng cũng có thể bao gồm các khối cho phép người bán có thể thêm, sửa, xóa và sắp xếp lại nội dung trong một section.
+    + VD: Bạn có thể tạo p1 section hình nahr có văn bản hiển thị hình ảnh và văn bản song song với các ùy chọn để người bán chọn hình ảnh, đặt văn bản và chọn thứ tự hiển thị.
+    + Các section có thể được thêm động vào các trang bằng các mẫu json, cho phép người bán linh hoạt để dễ dàng tùy chỉnh bố cục trang. Các section được bao gồm trong các mẫu json có thể hỗ trợ các khối ứng dụng, cung cấp cho người bán tùy chọn bao gồm nội dung ứng trong một section mà không phải chỉnh sửa mã chủ đề. các mẫu json có thể hiển thị tối đa 25 section và mỗi section có thể tối đa 50 khối.
+    + Các phần cũng có thể được bao gồm tĩnh, điều này có thẻ cung cấp cho người bán các tùy chọn tùy chỉnh trong bối cảnh cho nội dung tĩnh.
+    + Theo mặc dịnh, các section có sẵn cho bất kỳ mẫu nào, tuy nhiên bạn có thể giới hạn các mẫu nào có quyền truy cập trong section schema.
+    
+    - Location (Vị trí)
+      + Các tệp section năm trong thư mục section của chủ đề
+      + └── theme
+          ...
+          ├── templates
+          ├── sections
+          ...
+
+    - Content (Nội dung)
+      + Section chứa 3 loại nội dung chính:
+        + Main content:
+          - Bất kì HTML or Liquid nào bạn cũng có thể đwa vào section 
+          - section có quyền truy cập vào các dối tượng, thẻ và bộ lọc như  các tệp chủ đề liquid khác, cũng như các đối tượng cụ thể cho phần sau:
+            - Đối tượng Section - Vhuwas các thuộc tính của section và giá trị cài đặt.
+            - Đối tượng khối - Chứa các thuộc tính và cài đặt giá trị của một section block
+          - Ngoài đối tượng chung, các biến được tạo bên ngoài các section không thể truy cập được tỏng các section
+          - Section và block object, cũng như các biến được tạo trong các section, không có sẵn bên ngoài section tương ứng của chúng. ngoại lệ duy nhất là khi bạn tham chiếu đến section và block (khối) các đối tượng trong một doạn trích được hiển thị bên trong phần bạn đang tham chiếu.
+        + Assets:
+          - Section có thể nhóm nội dung JS và stylesheet của riêng họ với các thẻ liquid dành riêng cho từng phần sau:
+            - {% javascript %}
+            - {% stylesheet %}
+        + schema: 
+          - section hỗ trợ cụ thể  {% schema %} thẻ liquid: thẻ này được sử dụng để xác định các thuộc tính và cái đặt phàn sau:
+            + name, tag, claas, limit, settings, blocks, app_blocks, nav_block, presets, defaults, locales, temlate
+          
+    - Usage (sử dụng)
+      + Khi làm việc với section bạn nên làm quen với những thứ sau:
+        - shopify hiển thị đối tượng 
+        - các tích hợp các section vối trình chỉnh sửa danh sasdch chủ đề 
+        - Hỗ trợ các khối ứng dụng 
+    
+    - render a section 
+      + bạn có thể  hiển thị sections theo một trong các cách sau:
+        - bao gồm section với mẫu json 
+        - hiển thị section tuxnh với sectioon 3 thẻ liquid
+        - sử dụng vói kết cấu section
+
+    - Statically render a section
+      + Bạn có thể hiển thị tĩnh một section bằng cách sử dựng thẻ section liquid
+      + VD: nếu bạn có tệp section/header liquid chưa nội dung tiêu đề của chủ đề, bạn có thể muốn đưa mục đó vào them.liquid để tiêu đề thực hiện trên taasct cả các trang sử bố cục đó:
+      + {% section 'header' %}
+
+    - Integrate sections with the theme editor (Tích hợp các section với chỉnh sửa chủ đề)
+      + khi người bán tùy chỉnh các section thông qua trình chỉnh sửa chủ dề, HTML của các mục đó sẽ được thêm, xóa haowjc hiển thị lại trực tiếp vào DOM hiện có mà ko cần tải lại toàn bộ trang. Tuy nhiên, bất kỳ JS liên quan nào chạy khi tải lại trang sẽ không chạy lại.
+      + Ngoài ra, bạn phải đảm bảo rằng khi  ột section haowjc khối được chọn, section hoặc khối đó trở thành và cẫn hiển thị trong khi nó được chọn. VD: phần slideshow sẽ chế độ xem khi section được chọn, trượt vào một khối đã được chọn và tạm dừng trong khi khối đó đc chọn.
+      + Để giúp xác định các hành động của trình chỉnh sửa chủ đề như section và block lựa chọn hoặc sắp xếp lại thứ tự, bạn có thể sử dụng các sự kiện JS phát ra do trình chỉnh sửa chủ đề.
+      + Bạn cũng có thể muốn ngắn mã cụ thể chạy trong trình chỉnh sửa chủ đề. Để làm như vậy bạn có thể sử dụng các biến liquid và JS để phát hiện trình chỉnh sửa chủ đề.
+
+    - Support app blocks (Hỗ trọ các khối ứng dựng)
+      + Các khối ứng dụng cho phép các nhà phát triển ứng dụng tạo khối để người bán thêm nội dung vào chủ đề của họ mà không cần phải chỉnh sửa trực tiếp code trong chủ dề.
+
+  * section schema 
+    - Các phần hỗ trợ thẻ liquid cụ thể cho từng phần {% schema %}. Thẻ này cho phép bạn xác định các thuộc tính khác nhau của một phần. chẳng hạn như tên phần, bất kỳ khối phần và cài đặt để cho phép các tùy chọn tùy chỉnh trình chỉnh sửa chủ đề.
+
+    - schema 
+      + Mỗi section chỉ chưa 1 thẻ {% schema %} duy nhất, thẻ này chỉ được chứa json hộ lệ bằng cách sử dụng các thuộc tính được liệt kê trong nội dung. thẻ có thể được đặt ở bất kỳ đâu trong tệp section, nhưng không thể loofg vào bên tỏng thẻ liquid khác. 
+      + Sau đây là ví dụ về schema hợp lệ. Để biết chi tiết về từng thuộc tính:
+      + {% schema %}
+        {
+          "name": "Slideshow",
+          "tag": "section",
+          "class": "slideshow",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "text",
+              "id": "title",
+              "label": "Slideshow"
+            }
+          ],
+          "max_blocks": 5,
+          "blocks": [
+            {
+              "name": "Slide",
+              "type": "slide",
+              "settings": [
+                {
+                  "type": "image_picker",
+                  "id": "image",
+                  "label": "Image"
+                }
+              ]
+            }
+          ],
+          "presets": [
+            {
+              "name": "Slideshow",
+              "settings": {
+                "title": "Slideshow"
+              },
+              "blocks": [
+                {
+                  "type": "slide"
+                },
+                {
+                  "type": "slide"
+                }
+              ]
+            }
+          ],
+          "locales": {
+            "en": {
+              "title": "Slideshow"
+            },
+            "fr": {
+              "title": "Diaporama"
+            }
+          },
+          "templates": ["article", "index", "page", "product"]
+        }
+        {% endschema %}
+    
+    - Content (nội dung)
+      + Nội dung của {% schema %} có thể bao gồm các thuộc tính sau:
+        + naem, tag, class, limit, settings, block, max_blocks, presets, default, locales, templatess.
+
+    - Name (tên)
+      + Thuộc tính name xác định tiêu đề section được hiển thị trong trình chỉnh swuar chủ đề. VD: Lược đồ sau trả về đàu ra sau: 
+      + {% schema %}
+        {
+          "name": "Slideshow"
+        }
+        {% endschema %}
+    
+    - tag (Thẻ)
+      + Theo mặc định, khi shopify hiển thị một section, section đó được bao bọc trong một <div> phàn tử có thuộc tính id:
+      + <div id="shopify-section-[id]" class="shopify-section">
+          // Output of the section content
+        </div>
+      + Nếu bạn ko muốn sử dụng <div>, thì bạn có thể chỉ định loại phàn tử HTML nào sẽ sử dụng với thuộc tinh thẻ. Sau đây là các giá trị được chấp nhận:
+        + article, aside, div, footer, header, section
+        + VD đoạn mã: 
+        {% schema %}
+        {
+          "name": "Slideshow",
+          "tag": "section"
+        }
+        {% endschema %}
+      
+    - class 
+        + Khi shopify hiển thị một phần, phàn đó sẽ được bao bọc trong một phần tử HTML với một lớp shopify-section. Bạn có thể thêm vào lớp đó bằng thuộc tính class.
+        + VD:
+        {% schema %}
+        {
+          "name": "Slideshow",
+          "tag": "section",
+          "class": "slideshow"
+        }
+        {% endschema %}
+
+    - limit
+      + Theo mặc định, không có giới hạn về số lần một phần có thể được thêm vào mẫu. Bạn có thể chỉ định giới hạn 1 haowjc 2 thuộc tính limit:
+      + demo code:
+      {% schema %}
+      {
+        "name": "Slideshow",
+        "tag": "section",
+        "class": "slideshow",
+        "limit": 1
+      }
+      {% endschema %}
+
+    - settings
+      + Bạn có thể tạo các cài đặt cụ thể phần để cho phép người bán tùy chỉnh section với đối tượng settings:
+      + code mẫu:
+      {% schema %}
+      {
+        "name": "Slideshow",
+        "tag": "section",
+        "class": "slideshow",
+        "settings": [
+          {
+            "type": "text",
+            "id": "header",
+            "label": "Header"
+          }
+        ]
+      }
+      {% endschema %}
+
+    - Access section settings (Cài đặt phần truy cập)
+      + Cài đặt phàn có thể được truy cập thông qua đối tượng phàn, Tham khảo cài đặt Access để tìm kiếm thêm.
+    
+    - blocks
+      + bạn có thể tạo mới block cho một phần. Khối là các mô-dun nội dung có thể tái sử dụng có thể được thêm, xóa và sắp xếp lại trong một section.
+      + Khối có  các thuộc tính sau:
+        + type: Loại khối, Đây là một chuỗi dang tự do mà bạn có thể sử dụng làm mã định danh. bạn có thể truy câp giá trị này thông qua thuộc tính type của đối tượng block.
+        + name: Khối tên, sẽ hiển thị là tiêu đề khối trong trình chỉnh sửa chủ đề.
+        + limit: Số lượng khối của loại này có thể được sử dụng
+        + Sectting: Bất kỳ cài dặt đầu vào hoặc thanh bên nào bjn muốn cho khối. Một số cài đặt có thể được sử dụng làm tiêu đề của khối trong trình chỉnh sửa chủ đề.
+      + {% schema %}
+        {
+          "name": "Slideshow",
+          "tag": "section",
+          "class": "slideshow",
+          "settings": [
+            {
+              "type": "text",
+              "id": "title",
+              "label": "Slideshow"
+            }
+          ],
+          "blocks": [
+            {
+              "name": "Slide",
+              "type": "slide",
+              "settings": [
+                {
+                  "type": "image_picker",
+                  "id": "image",
+                  "label": "Image"
+                }
+              ]
+            }
+          ]
+        }
+        {% endschema %}
+    
+    - render blocks
+      + Bạn có thể hiển thị các khối của một phần bằng cách lập lại thuộc tính khối của đối tượng section: 
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'slide' %}
+            <div class="slide" {{ block.shopify_attributes }}>
+              {{ block.settings.image | image_url: width: 2048 | image_tag }}
+            </div>
+          ...
+        {% endcase %}
+      {% endfor %}
+      + Trong ví dụ trên, nội dung của mỗi khối được bao gồm bên trong một vùng chứa chính và vùng chứa đó đã thêm {{ block.shopify_attributes }} làm thuộc tính. Trình chỉnh sửa chủ đề của shopify sử dụng thuộc tính đó để xác định các khối trong API JS của bạn.
+      + Nếu khối của bạn la fmoojt phần tử duy nhát, hãy đảm bảo rằng phần tử cs thuộc tính này.
+    
+    - Show dynamic block titles in the theme editor(Hiển thị các tiêu đề khối động trong trình chrinh sửa)
+      + rong một số trường hợp nhất định, trifh chrinh swuar chủ đề có thể hiển thị giá trị cài đặt đầu vào làm tiêu đề của mọt khối trong thanh bên của trình chỉnh sửa chủ đề. Điều này có thể giúp người bán xác định và sắp xếp lại các khối trong 1 phần. 
+      + trình chỉnh sửa chủ đề kiểm tra giá trị ID của cài đặt trong một block để xác định giá trị tốt nhất để sử dujg cho tiêu đề khối.
+      + Trình chỉnh sửa chủ đề sử dụng các cài đặt với các giá trị ID sau, theo thứ tự ưu tiên:
+        - heading, title, text
+      + Nếu cài đặt có giá trị ID phù hợp không tồn tại, thì tên khối được làm tiêu dề.
+      + VD: Khối này với ID cài đặt của iêu đề hiển thị trong thanh bên với tiêu dề Welcome to our store.
+      "blocks": [
+        {
+          "name": "Announcement",
+          "type": "announcement",
+          "settings": [
+            {
+              "type": "text",
+              "id": "heading",
+              "default": "Welcome to our store",
+              "label": "Heading"
+            }
+          ]
+        }
+      ]
+
+    - max_blocks
+      + Có giới hạn tối đa 50 khối cho mỗi phần. Bjan có thể chỉ định giới hạn thấp hơn với thuộc tinh max_blocks.
+      + {% schema %}
+        {
+          "name": "Slideshow",
+          "tag": "section",
+          "class": "slideshow",
+          "max_blocks": 5,
+          "settings": [
+            {
+              "type": "text",
+              "id": "title",
+              "label": "Slideshow"
+            }
+          ],
+          "blocks": [
+            {
+              "name": "Slide",
+              "type": "slide",
+              "settings": [
+                {
+                  "type": "image_picker",
+                  "id": "image",
+                  "label": "Image"
+                }
+              ]
+            }
+          ]
+        }
+        {% endschema %}
+
+    - presets (Cài đặt trước)
+      + Cài đặt trước là cấu hình mặc định của các phần cho phép người bán dễ dàng thêm một phần vào mẫu JSON thông qua quá tình chỉnh sửa chủ đề. Giá trị dặt trước không iên quan đến kiểu chủ dề được xác định trong settings_data.json
+      + đối tượng cài đặt trước có các thuộc tính sau:
+        + name: tên đặt trước, sẽ hiển thị trong phàn thêm section của trình chỉnh sửa chủ đề.
+        + settings: Danh sách các giá trị mặc định cho bất kỳ cài đặt bạn có thể có thể muốn điền. Mỗi mục nên bao gồm tên cài đặt và giá trị.
+        + blocks:  danh sách các khói mặc định mà bạn có thể muốn đưa vào. mỗi mục phải là một đối tượng với các thuộc ính của loại và cài đặt. Giá trị thuộc tính type phải phản ánh loại khối mà bạn muốn đưa vào và đối tượng setting phải có cùng định dạng với thuộc tính setting ở trên.
+      + Sau đây la ví dụ về việc bao gồm các cài đặt trc trong một phần:
+      {% schema %}
+      {
+        "name": "Slideshow",
+        "tag": "section",
+        "class": "slideshow",
+        "max_blocks": 5,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Slideshow"
+          }
+        ],
+        "blocks": [
+          {
+            "name": "Slide",
+            "type": "slide",
+            "settings": [
+              {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Image"
+              }
+            ]
+          }
+        ],
+        "presets": [
+          {
+            "name": "Slideshow",
+            "settings": {
+              "title": "Slideshow"
+            },
+            "blocks": [
+              {
+                "type": "slide"
+              },
+              {
+                "type": "slide"
+              }
+            ]
+          }
+        ]
+      }
+      {% endschema %}
+    
+    - default (Mặc định)
+      + Nếu bạn hiển thị tĩnh một phần, thì bạn có thể xác định cấu hình mặc định với đối tượng mặc định, có cùng thuộc tính tương tự với đối tượng đặt trc. 
+      + Sau đây là ví dụ về việc bao gồm mặc định trong một phần:
+      {% schema %}
+      {
+        "name": "Slideshow",
+        "tag": "section",
+        "class": "slideshow",
+        "max_blocks": 5,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Slideshow"
+          }
+        ],
+        "blocks": [
+          {
+            "name": "Slide",
+            "type": "slide",
+            "settings": [
+              {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Image"
+              }
+            ]
+          }
+        ],
+        "default": {
+          "settings": {
+            "title": "Slideshow"
+          },
+          "blocks": [
+            {
+              "type": "slide"
+            },
+            {
+              "type": "slide"
+            }
+          ]
+        }
+      }
+      {% endschema %}
+    
+    - locales:
+      + Section có thể cung cấp tập hợp các chuỗi đã địch của riêng chúng thông qua đối tượng locales. Điều này tách biệt với thư mục locales của chủ đề, điều này làm cho nó trở thành một tính năng hữu ích cho các phần được cài đặt trên nhiều chủ đề hoặc cửa hàng.
+      + Đối tượng locales có định dạng sau:
+      -> {
+            "locales": {
+              "language": {
+                "translation_key": "translation_value"
+              }
+            }
+          }
+
+      + Bất kỳ bản dịch nào cũng sẽ hiển thị trong tab Phần của Trình chỉnh sửa ngôn ngữ để người bán chỉnh sửa. Khi các chỉnh sửa được thực hiện, các thay đổi được lưu trực tiếp vào tệp ngôn ngữ hiện hành và schema phần không thay đổi.
+      + Các bản dịch này có thể được truy cập thông qua bộ lọc liquid (bộ lọc t) trong đó khóa sẽ ở định dạng sau:
+      -> sections.[section-name].[translation-description]
+      + Ví dụ: nếu bạn muốn tham khảo bản dịch tiêu đề từ ví dụ trên, thì hãy sử dụng như sau:
+      -> {{ 'sections.slideshow.title' | t }}
+    
+    - temlate
+      + Bạn có thể giới hạn một phần đối với một số mẫu nhất định bằng cách chỉ định các mẫu đó thông qua thuộc tính mẫu. Thuộc tính này chấp nhận danh sách các chuỗi đại diện cho loại trang.
+      +VD:
+      {% schema %}
+      {
+        "name": "Slideshow",
+        "tag": "section",
+        "class": "slideshow",
+        "max_blocks": 5,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Slideshow"
+          }
+        ],
+        "blocks": [
+          {
+            "name": "Slide",
+            "type": "slide",
+            "settings": [
+              {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Image"
+              }
+            ]
+          }
+        ],
+        "default": {
+          "settings": {
+            "title": "Slideshow"
+          },
+          "blocks": [
+            {
+              "type": "slide"
+            },
+            {
+              "type": "slide"
+            }
+          ]
+        },
+        "locales": {
+            "en": {
+              "title": "Slideshow"
+            },
+            "fr": {
+              "title": "Diaporama"
+            }
+        },
+        "templates": ["article", "index", "page", "product"]
+      }
+      {% endschema %}
+
+    - App blocks:
+      + Nếu phần của bạn là một phần của mẫu JSON, thì bạn nên hỗ trợ các khối loại @app. Các khối ứng dụng cho phép các nhà phát triển ứng dụng tạo ra các khối cho người bán thêm nội dung ứng dụng vào chủ đề của họ mà không phải chỉnh sửa mã chu đề trực tiếp.
+
+  * App blocks:
+    - Nếu phần của bạn là một phần của mẫu JSON, thì bạn nên hỗ trợ các khối loại @app. Các khối này cho phép nhà phát triển ứng dụng tạo khối để người bán thêm nội dung ứng dụng vào chủ đề của họ mà không cần phải chỉnh sửa trực tiếp mã chủ đề. Bạn có thể tạo khối ứng dụng bằng tiện ích mở rộng ứng dụng chủ đề.
+    - Để hỗ trợ các khối ứng dụng, bạn cần phải làm ba điều sau: 
+      + Add support for app blocks to the section (Thêm hỗ trợ cho các khối ứng dụng vào phần)
+      + Render the block content (Hiển thị nội dung khối)
+      + Ensure you have valid section settings (Đảm bảo bạn có cài đặt phần hợp lệ)
+    - Ngoài ra bạn có thẻ tạo 1 phần trình bao bọc khối ứng dụng.
+
+    - Support app blocks in the section (Hỗ trợ các khối ứng dụng trong phần)
+      + Để cho phép người bán thêm các khối ứng dụng vào một phần, bạn cần bao gồm một khối nhưng thuộc loại @app trong schema section. Chẳng hạn:
+      "blocks": [
+        {
+          "type": "@app"
+        }
+      ]
+
+    - Render app blocks ()
+      + Để hiển thị một khối ứng dụng, bạn cần kiểm tra loại thishc hợp và sử dụng đoạn mã sau: {% render block %}
+
+    - App blocks and section settings ()
+      + Để ngăn chặn sự không rõ ràng với các cài đặt tự động, các phần hỗ trợ các khối ứng dụng có thể chỉ bao gồm một cài đặt tài nguyên của từng loại dưới dạng cài đặt phần. Ví dụ: một phần có thể chỉ bao gồm một cài đặt sản phẩm và chỉ có một cài đặt bộ sưu tập.
+
+    - App blocks wrapper 
+      + Khối ứng dụng có thể được thêm vào một trang theo hai cách:
+        + Là một khối trong giới hạn của phần đang hiển thị khối
+        + Theo cách tương tự như các phần, cung cấp cho chúng toàn bộ chiều rộng của trang để hiển thị nội dung
+      + Vì bản thân các khối ứng dụng không phải là các mục, shopify sẽ gói các khối ứng dụng toàn chiều rộng này trong phần do nền tảng tạo theo mặc định. Tuy nhiên, bạn có thể ghi đè phần mặc định này bằng cách tạo phần của riêng bạn có tên là .apps.liquid
+      + section schema cần bao gồm một khối loại , cũng như tệp . Nếu thiếu một trong hai mục này, một hoặc lỗi sẽ được trả về trong trình chỉnh sửa chủ đề và thương nhân không thể sử dụng phần này. apps.liquid @app preset Apps not supported Apps section is invalid
+
+  * Section assets
+    - Section assets
+      + các phần có thể nhóm nội dung JS và stylesheet của riêng chúng cách sử dụng các thẻ liquid dành riêng cho từng phần sau:
+        + {% javascript %}
+        + {% stylesheet %}
+      + Bạn chỉ cần sử dụng các thẻ này nếu phần của bạn được cài đặt trên nhiều chủ đề hoặc cửa hàng.
+
+    - javascript 
+      + Thẻ {% javascript %} có thể được sử dụng để bao gồm JS cho một phần:
+      -> {% javascript %}
+          document.querySelector('.slideshow').slideshow();
+          {% endjavascript %}
+      + Nội dung từ thẻ {% javascript %} trên tất cả các mục được Shopify nối vào một tệp duy nhất, sau đó được đưa vào chủ đề thông qua đối tượng content_for_header Liquid. Tệp được tải không đồng bộ thông qua <script> thẻ có thuộc tính trì hoãn.
+      + Nội dung từ mỗi thẻ {% javascript %} được bao bọc trong một hàm ẩn danh tự thực thi để bất kỳ biến nào được xác định trong một lần đóng và các ngoại lệ thời gian chạy sẽ không ảnh hưởng đến các phần khác.
+    
+    - Instance specific JavaScript 
+      + Nội dung đi kèm chỉ được dùng một lần cho mỗi mục, không phải cho mỗi phiên bản của một mục. Nếu bạn cần JavaScript dành riêng cho phiên bản, hãy thêm thuộc tính dữ liệu vào đánh dấu mục và tham chiếu các thuộc tính đó trong JavaScript. Chẳng hạn:
+      --> <div class="slideshow-wrapper" data-slide-speed="{{ section.settings.speed }}">
+            <!-- slideshow content -->
+          </div>
+
+          {% javascript %}
+            var slideshowSpeed = parseInt(document.querySelector('.slideshow-wrapper').dataset.slideSpeed);
+          {% endjavascript %}
+
+    - stylesheet 
+      + Thẻ có thể được sử dụng để bao gồm các kiểu CSS cho một phần:{% stylesheet %}
+      --> <div class="slideshow-wrapper" data-slide-speed="{{ section.settings.speed }}">
+            <!-- slideshow content -->
+          </div>
+
+          {% stylesheet %}
+          .slideshow-wrapper {
+            // your styles
+          }
+          {% endstylesheet %}
+
+  * Integrate sections with the theme editor (tích hợp các phần với trình chỉnh sửa)
+    - Integrate sections with the theme editor 
+      + Khi người bán tùy chỉnh các mục thông qua trình chỉnh sửa chủ đề, HTML của các mục đó sẽ được thêm, xóa haowjc hiển thị lại động trực tiếp vào DOM hiện có mà không càn tải lại toàn bộ trang. Tuy nhiên, bất kỳ JS liên quan nào chạy khi tải lại trang sẽ ko chạy lại trang.
+      + Ngoài ra, bạn phải khi một phần hoặc khối được chọn, phàn hoặc khối đó sẽ trở thành và vẫn hiển thị trong khi nó được chọn. VD: phần trình chiếu sẽ cuộn vào chế độ xem khi phần được chọn, trượt vào một khối đã chọn (slide) và tạm dừng trong khi khối dó đc chọn.
+      + Để giúp xác dịnh các hành động của trình chỉnh sửa chủ đề như phần và block lựa chọn hoặc sắp xếp lại thứ tự, bạn có thể sử dụng các sự kiện JS do trình chỉnh sửa chủ đề
+      + Bạn cũng có thể muốn ngăn mã cụ thể chạy trong trình chỉnh sửa chủ dề. Đề làm như vậy bạn có thể sử dụng các biens liquid và JS để phát hiện trình chỉnh sửa chủ dề.
+
+    - JavaScript events:
+      + Để xác định các phần à khối, trình chỉnh sửa chủ đề tìm kiếm các thuộc tính dữ liệu cụ thể trên phần tử chính của phần hoặc khối được liên kết. Các phần được bao bọc bởi phàn tử do shopify tạo ra bao gồm thuộc tính này theo mặc đinh. Tuy nhiên, các khối cần phải có thuộc tính thêm thủ công bằng cách sử dụng thuộc tính shopify_attributes của đối tượng khối.
+      + Trình chỉnh sửa chủ đề phát ra phần và khối các sự kiện JS bong bóng và không thể hủy bỏ. Mỗi sự kiện có một target (event.target) là phần liên kết haowjc phần tử block dựa trên thuộc tính data được đề cập ở trên.
+      + Ngoài các sự kiện phàn và block, trình chỉnh sửa chủ đề cx phát ra các sự kiện khi trình kiểm tra xem trước trình chính sửa chủ đề được kích hoạt hoặc huy kích hoạt.
+      + Bảng sau đây trình bày các sự kiện do trình chỉnh sửa chủ đề phát hành: 
+        + type: shopify:inspector:activate
+          target: -
+          detail: - 
+          trigger: Trình kiểm tra xem trước trình chỉnh sửa chủ dề đã được kích hoạt.
+
+        + type: shopify:inspector:deactivate
+          target: - 
+          detail: -
+          trigger: Trình kiểm tra xem trước trình chỉnh sửa chủ dề đã được vô hiệu hóa. 
+
+        + type: shopify:section:load
+          target: section
+          detail: {sectionId}
+          trigger: Một phần đã được them vào haowjc hiển thị lại.
+          Expected action: Thực hiện lại bát kỳ JS cần thiết cho phần hoạt động và hiển thị đúng, như thế trang vừa được tải
+        
+        + type: shopify:section:unload
+          target: section
+          detail: {sectionId}
+          trigger: Một phần đã bị xóa hoặc đang được hienr thị lại.
+          Expected action: Dọn dẹp mọi sự kiện, biến, v.v... để không có gì bị hỏng hi trang được tương tác và không xảy ra rò rỉ bộ nhớ.
+
+        + type: shopify:section:select
+          target: section
+          detail: {sectionId, load}
+          trigger: Người dung đã chọn phần tong thanh bên.
+          Expected action: Trình chỉnh sửa chủ đề tự động cuộn đến phần, Vì vậy hãy đảm bảo phần đó đang ở trong chế độ xem và vẫn ở chế độ xem trong khi được chọn.
+        
+        + type: shopify:section:deselect
+          target: section
+          detail: {sectionId}
+          trigger: nguwowf dùng đã bỏ chọn phần trog thanh bên.
+          Expected action: 
+
+        + type: shopify:section:reorder
+          target: Section
+          detail: {sectionId}
+          trigger: Một phàn đã được sắp xếp lại 
+          Expected action:
+
+        + type: shopify:block:select
+          target: block
+          detail: {blockId, sectionId, load}
+          trigger: Người dùng đã chọn khối trong thanh bên.
+          Expected action: Trình chỉnh sửa chủ đề tự động cuộn vào phần, vì vậy hãy đảm bảo khối năm tỏng chế độ xem và vẫn đang ở tỏng chế độ xem trong khi được chọn.
+
+        + type: shopify:block:deselect
+          target: block
+          detail: {blockId, sectionId}
+          trigger: Người dùng đã bỏ chọn khối trong thanh bên
+          Expected action: 
+
+      + trong bảng trên, blockId đại diện cho ID Khối, sectionId đjai diện cho ID phần Load (tải) cho biết liệu sự kiện đó có được kishc haojt bởi một phần (section) hiển thị lại hay lựa chọn của người dùng. Giá trị của Load (tải) là đúng hay sai.
+    
+    - Detect the theme editor (Phát hiện trình chirh sửa chủ đề)
+      + Bạn có thể phát hiện bạn có đang sử dụng trình chỉnh sửa chủ đề trong Liquid và JavaScript hay không.
+        - Liquid:
+          + Đối tượng yêu cầu liquid có thuộc tính desigin_mode sẽ trả về true nếu bạn đang ở trong trình chỉnh sửa chủ đề và nếu false nếu nếu không. Chẳng hạn: 
+          -> {% if request.design_mode %}
+                <!-- This will only render in the theme editor -->
+              {% endif %}
+          
+        - JavaScript 
+          + Trong JS, biến toàn cục shopify.designMode sẽ tar về true nếu bạn đang trong trình chỉnh swura chủ đề và không xác định nếu không. Chăng hạn:
+          -> if (Shopify.designMode) {
+              // This will only render in the theme editor
+             }
+          
+    - Detect the theme editor preview inspector
+      + Ngoài các sự kiện JS được kishc hoạt khi trình chỉnh sửa xem trước trình chỉnh sửa chủ đè được kích haojt hay hủy kích hoạt, bạn có thể sử dụng biến toàn cục shopify.inspectMode. Nó sẽ tar về true nếu trình kiểm tra xem trước được kích hoạt và false nếu không. Chẳng hạn:
+      -> if (Shopify.inspectMode) {
+          // This will only execute if the theme editor preview inspector is currently activated
+         }
+
