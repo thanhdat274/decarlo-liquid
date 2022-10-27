@@ -3,54 +3,51 @@
     "166374553325d7054e": {
       "type": "slideshow",
       "blocks": {
-        "1663745533588c9169-0": {
+        "7aadbe7f-65b0-4ef2-96dc-59ff56a57319": {
           "type": "slide",
           "settings": {
-            "image": "shopify:\/\/shop_images\/campustour-sliding-01-31.png",
-            "heading": "",
+            "heading": "Image slide",
             "heading_size": "h1",
-            "subheading": "",
-            "button_label": "",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
             "link": "",
             "button_style_secondary": false,
             "box_align": "middle-center",
-            "show_text_box": false,
+            "show_text_box": true,
             "text_alignment": "center",
             "image_overlay_opacity": 0,
             "color_scheme": "background-1",
             "text_alignment_mobile": "center"
           }
         },
-        "2831e5f9-11c0-430f-8c82-6452a4c3c1a1": {
+        "92ddd187-4fdb-4171-81e6-1b594add58b9": {
           "type": "slide",
           "settings": {
-            "image": "shopify:\/\/shop_images\/khai-truong-2409.png",
-            "heading": "",
-            "heading_size": "h2",
-            "subheading": "",
-            "button_label": "",
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
             "link": "",
             "button_style_secondary": false,
             "box_align": "middle-center",
-            "show_text_box": false,
+            "show_text_box": true,
             "text_alignment": "center",
             "image_overlay_opacity": 0,
             "color_scheme": "background-1",
             "text_alignment_mobile": "center"
           }
         },
-        "731b430e-429a-40b9-99c3-bc9cc918d4a4": {
+        "b4baf27c-6127-4dd0-bf0f-3777b100bf5a": {
           "type": "slide",
           "settings": {
-            "image": "shopify:\/\/shop_images\/690x300_GALAXY-Z-FLIP-4-256GB-FLEX-MODE-COLLECTION-final.png",
-            "heading": "",
-            "heading_size": "h2",
-            "subheading": "",
-            "button_label": "",
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
             "link": "",
             "button_style_secondary": false,
             "box_align": "middle-center",
-            "show_text_box": false,
+            "show_text_box": true,
             "text_alignment": "center",
             "image_overlay_opacity": 0,
             "color_scheme": "background-1",
@@ -59,9 +56,9 @@
         }
       },
       "block_order": [
-        "1663745533588c9169-0",
-        "2831e5f9-11c0-430f-8c82-6452a4c3c1a1",
-        "731b430e-429a-40b9-99c3-bc9cc918d4a4"
+        "7aadbe7f-65b0-4ef2-96dc-59ff56a57319",
+        "92ddd187-4fdb-4171-81e6-1b594add58b9",
+        "b4baf27c-6127-4dd0-bf0f-3777b100bf5a"
       ],
       "settings": {
         "layout": "full_bleed",
